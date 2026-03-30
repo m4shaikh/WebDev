@@ -1,0 +1,679 @@
+/* ========================================= */
+/* 1. SETUP & RESET                          */
+/* ========================================= */
+/* Reseting default browser settings */
+*:not(.navbar) {
+    margin: 0.5rem;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-family: cursive
+}
+
+
+.f1 {
+    margin-top: 50px;
+}
+
+/* ========================================= */
+/* 2. BASE TYPOGRAPHY & ELEMENTS             */
+/* ========================================= */
+/* STD tags */
+p {
+    font-size: 1rem;
+}
+
+h1 {
+    color: red;
+    margin: 1rem;
+    /* MISTAKE: this margin property overrides the previous one */
+    margin: 2rem 0 2rem;
+}
+
+h2 {
+    color: blue;
+    font-size: 24px;
+}
+
+body {
+    background: #ffd9b8;
+
+}
+
+/* MISTAKE: 'p' selector is defined again. Best practice is to combine them. */
+p {
+    color: rgb(3, 3, 32);
+    font-size: 16px;
+}
+
+/* ========================================= */
+/* 3. CLASSES & IDs                          */
+/* ========================================= */
+/* Different paragraph tags*/
+
+p1 {
+    color: darkgreen;
+    font-size: 16px;
+}
+
+p2 {
+    color: #013b12;
+    font-size: 20px;
+}
+
+p3 {
+    color: #013b12;
+    font-size: 16px;
+    width: 50%;
+}
+
+/* class and ID examples*/
+
+.art {
+    color: brown;
+    font-size: 16px;
+}
+
+.unit1 {
+    width: 50%;
+}
+
+.unit2 {
+    width: 50%;
+}
+
+.unit3 {
+    font-size: 1rem;
+}
+
+.unit4 {
+    font-size: 1.5em;
+}
+
+/* ========================================= */
+/* 4. BOX MODEL & SHAPES                     */
+/* ========================================= */
+.box {
+    border: 4px solid red;
+    padding: 24px;
+    width: 50%;
+}
+
+.circle {
+    border: 2px solid black;
+    height: 100px;
+    width: 100px;
+    background-color: goldenrod;
+    margin: 2rem auto;
+    border-radius: 50px;
+    outline: 4px solid #013b12;
+    outline-offset: 4px;
+}
+
+/* ========================================= */
+/* 5. TYPOGRAPHY EXAMPLES                    */
+/* ========================================= */
+.typography {
+    padding: 5%;
+    font-size: 1.2rem;
+    text-align: justify;
+    line-height: 2em;
+    font-family: cursive
+}
+
+input,
+button {
+    font: inherit;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 1rem;
+    background: rgb(214, 201, 201);
+    color: #4F0000;
+}
+
+button:hover {
+    background-color: rgb(83, 0, 0);
+    color: #ffd9b8;
+}
+
+input::placeholder {
+    color: rgb(79, 0, 0);
+    opacity: 0.8;
+}
+
+#second {
+    color: grey;
+    font-size: 16px;
+}
+
+/* ========================================= */
+/* 6. LINKS & BUTTONS                        */
+/* ========================================= */
+.a2 {
+    text-decoration: none;
+}
+
+.a3 {
+    text-decoration: none;
+    color: #918416;
+}
+
+.a4 {
+    text-decoration: none;
+    color: #918416;
+}
+
+.a4:visited {
+    color: black;
+}
+
+.a4:hover {
+    color: aqua;
+}
+
+.a5 {
+    text-decoration: none;
+    color: #918416;
+}
+
+.a5:visited {
+    color: black;
+}
+
+.a5:hover {
+    color: aqua;
+}
+
+.a5:focus {
+    background: #4F0000;
+    color: #ffd9b8
+}
+
+/* ========================================= */
+/* 7. LISTS                                  */
+/* ========================================= */
+.O1 {
+    padding: 0.2rem;
+    list-style-type: decimal;
+    color: blueviolet;
+    text-align: left;
+    list-style-position: inside;
+}
+
+.O2 {
+    padding: 0.2rem;
+    list-style-type: lower-roman;
+    text-align: left;
+    list-style-position: inside;
+    color: blueviolet;
+}
+
+.O2 li:nth-child(3) {
+    color: tomato;
+}
+
+.Uo1 {
+    padding: 0.2rem;
+    list-style-type: disc;
+    color: blueviolet;
+    text-align: left;
+    list-style-position: inside;
+}
+
+.Uo2 {
+    padding: 0.2rem;
+    list-style-type: disc;
+    color: blueviolet;
+    text-align: left;
+    list-style-position: inside;
+}
+
+.Uo2 li:nth-child(5)::marker {
+
+    font-family: sans-serif;
+    font-weight: bolder;
+    color: red;
+    content: "This is content >> ";
+}
+
+/* ========================================= */
+/* 8. NAVIGATION MENU                        */
+/* ========================================= */
+.nav {
+    margin: 5rem;
+    border: 2px solid #4F0000;
+    border-radius: 2.35rem;
+}
+
+.menutitle {
+    text-align: center;
+    padding: 1rem;
+    font-size: 2rem;
+    background: #4d0000;
+    margin: 0;
+    border-radius: 2rem 2rem 0 0;
+    color: #DFEA43;
+    ;
+    border-bottom: 2px solid #4F0000;
+    outline: 2px solid #4F0000;
+}
+
+.cars {
+    font-size: 1rem;
+    list-style-type: none;
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 0;
+
+}
+
+.cars li {
+    border-top: 1px solid gray;
+    line-height: 4rem;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    margin: 0;
+}
+
+.cars li a {
+    margin: 0;
+    display: block;
+    color: rgb(61, 50, 50);
+    background: whitesmoke;
+
+}
+
+li a:hover {
+    color: #DFEA43;
+    background-color: #820c0cf7;
+}
+
+a:focus {
+    color: #DFEA43;
+    background-color: #820c0cf7;
+
+}
+
+li:nth-child(5) a:hover {
+    border-radius: 0 0 2.3rem 2.3rem;
+}
+
+li:nth-child(5) a {
+    border-radius: 0 0 2.3rem 2.3rem;
+}
+
+/* ========================================= */
+/* 9. LAYOUT: INLINE DISPLAY                 */
+/* ========================================= */
+.navbar1 {
+    margin-left: 0;
+}
+
+
+.Ul3 {
+    margin: 0;
+    list-style-type: none;
+    text-align: right;
+    background-color: #4F0000;
+
+}
+
+.Ul3 li {
+
+    display: inline-block;
+    background: #4F0000;
+}
+
+.Ul3 li a {
+    display: inline-block;
+    background: #4F0000;
+    color: yellow;
+}
+
+/* ========================================= */
+/* 10. LAYOUT: FLOATS                        */
+/* ========================================= */
+.block1 {
+    height: 15vw;
+    width: 15vw;
+    background: blueviolet;
+    float: left;
+    color: white;
+    padding: 1rem;
+    margin-right: 1rem;
+}
+
+.block2 {
+    height: 15vw;
+    width: 15vw;
+    background: blueviolet;
+    float: right;
+    color: white;
+    padding: 1rem;
+    margin-left: 1rem;
+}
+
+.not-togather {
+    background: #4F0000;
+}
+
+.togather {
+    background: #4F0000;
+    overflow: auto;
+    /* display : flow-root */
+    display: flow-root;
+}
+
+/* ========================================= */
+/* 11. LAYOUT: COLUMNS                       */
+/* ========================================= */
+.columns {
+    columns: 4;
+    column-width: 250px;
+    margin-top: 0;
+    column-rule: 2px dotted blue;
+
+}
+
+.columns h2 {
+    column-span: all;
+}
+
+/* ========================================= */
+/* 12. POSITIONS (Absolute, Sticky, etc.)    */
+/* ========================================= */
+.innerbox {
+    border: 2px dotted blue;
+    margin: 10% 20% 10%;
+    height: 650px;
+
+}
+
+.outerbox {
+    border: 2px solid red;
+    margin: 0 30% 0;
+    height: 800px;
+    position: relative;
+}
+
+.box1 {
+    margin: 0;
+    width: 160px;
+    height: 160px;
+    padding: 1rem;
+}
+
+.absolute {
+    background: #7FB069;
+    top: 0;
+    left: 0;
+    position: absolute;
+
+}
+
+.screan {
+    margin: 0;
+    position: relative;
+    height: 1045px;
+}
+
+.relative {
+    position: relative;
+    background-color: #d36135;
+    top: 100px;
+    left: 200px;
+
+}
+
+.sticky {
+    position: sticky;
+    top: 50px;
+    z-index: 1;
+    background-color: #E6AA68;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 2;
+}
+
+.st {
+    font-size: xx-small;
+}
+
+.pos {
+    margin-left: 25px;
+}
+
+/* ========================================= */
+/* 13. LAYOUT: FLEXBOX                       */
+/* ========================================= */
+.main {
+    margin: 2rem;
+    border: 2px solid #4F0000;
+    max-width: 800px;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.boxs {
+    height: 100px;
+    width: 100px;
+    background: #E6AA68;
+    padding: 1rem;
+
+}
+
+.main2 {
+    margin: 2rem;
+    border: 2px solid #4F0000;
+    max-width: 800px;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: wrap row;
+}
+
+.boxs2 {
+    height: 100px;
+    width: 100px;
+    background: #E6AA68;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ========================================= */
+/* 14. LAYOUT: GRID                          */
+/* ========================================= */
+.grid {
+    margin-bottom: 2rem;
+}
+
+.box3 {
+    padding: 1rem;
+    background: #4d0000;
+    color: aliceblue;
+    margin: 0;
+}
+
+container1 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr 2fr);
+    grid-auto-rows: minmax(150px, auto);
+    gap: 1rem;
+
+}
+
+container2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr 2fr);
+    grid-auto-rows: minmax(150px, auto);
+    gap: 1rem;
+
+}
+
+container2 .box3:nth-child(1) {
+    background: #d36135;
+    grid-column: 1 / 4;
+    grid-row: 1 / 2;
+    /* MISTAKE: 'gap' applies to grid containers, not grid items. */
+    gap: 1rem;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+container2 .box3:nth-child(2) {
+    background: #d36135;
+    grid-column: 1 / 5;
+    grid-row: 2 / 3;
+    gap: 1rem;
+}
+
+container3 {
+    grid-area: cn;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr 2fr);
+    grid-auto-rows: minmax(100px, auto);
+    gap: 1rem;
+    margin: 2rem 0 2rem 0;
+
+}
+
+container3 .box3:nth-child(1) {
+    background: #d36135;
+    grid-column: 1 / 4;
+    grid-row: 1 / 2;
+    gap: 1rem;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+container3 .box3:nth-child(2) {
+    background: #d36135;
+    grid-column: 1 / 5;
+    grid-row: 2 / 3;
+    gap: 1rem;
+}
+
+.grid1 {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-auto-rows: minmax(80px, auto);
+    gap: 0rem;
+    grid-template-areas:
+        "hd hd hd hd hd hd hd hd hd"
+        "cn cn cn cn cn cn cn sb sb"
+        "ft ft ft ft ft ft ft ft ft";
+    margin-bottom: 2rem;
+}
+
+.el {
+    font-size: larger;
+    font-weight: bolder;
+    display: grid;
+    place-content: center;
+    color: black;
+
+}
+
+.header {
+    grid-area: hd;
+    background-color: #7FB069;
+    margin: 0;
+}
+
+.sidebar {
+    grid-area: sb;
+    background-color: #bdb141;
+    margin: 0;
+
+}
+
+.footer {
+    grid-area: ft;
+    background-color: #7FB069;
+    margin: 0;
+
+}
+
+/* ========================================= */
+/* 16. IMAGES                                */
+/* ========================================= */
+img {
+    display: block;
+}
+
+.image1 img {
+    width: 20%;
+    height: auto;
+}
+
+.container5 {
+    background-image: url("./Images/pillarsofcreation_composite.jpg");
+    margin-top: 2rem;
+    /* MISTAKE: background-image cannot be 'cover'. It should be background-size: cover; */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: #4F0000 2px solid;
+}
+
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    margin: 0;
+    padding: 0;
+    gap: 5rem;
+    background-color: #00000048;
+}
+
+.intro {
+    font-size: 80px;
+    font-weight: bolder;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-shadow: whitesmoke 2px 2px 4px;
+    color: black;
+    flex-wrap: nowrap;
+}
+
+.hero .profile-pic-figure {
+    width: 20%;
+}
+
+.profile-pic-figure img {
+    width: 100%;
+    min-width: 100px;
+    height: auto;
+    border: 6px double #7FB069;
+    border-radius: 50%;
+    padding: 0.25rem;
+}
+
+@media screen and (max-width: 1000px) {
+    .hero {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .hero .profile-pic-figure {
+        width: 50%;
+    }
+}

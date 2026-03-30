@@ -1,0 +1,54 @@
+*{
+    margin: 0;
+    padding: 0;
+
+}
+body, button {
+    font-family: 'Montserrat', sans-serif;
+}
+body{
+    background-color: #F2F8AA;
+
+    width: 100wh;
+    height: auto;
+}
+
+main{
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+h1{
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase; 
+    letter-spacing: 2px;
+    color: #297373;
+    font-size: 3rem;
+}
+
+h2{
+    color: #ff8552;
+    font-size: 1.75rem;
+}
+
+button{
+    
+    padding:1rem;
+    border: 2px solid #ff8552;
+    border-radius: 1rem;
+    font-size: large;
+    transition: all 0.2 ease; 
+}
+button:hover{
+    background: #297373;
+    color: #F2F8AA;
+    box-shadow: 3px 3px 2px #ff8552;
+}
+button:active{
+    box-shadow: 0 0 0 ;
+    transform: translateY(3px);
+}

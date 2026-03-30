@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CSS lean</title>
+    <link rel="stylesheet" href="/H1.css">
+</head>
+
+<body>
+    <!-- MISTAKE: Empty src attribute in script tag. Unnecessary use of async/defer without a source. -->
+    <script src="" async defer></script>
+
+    <!-- ========================================= -->
+    <!-- 1. INTRO                                  -->
+    <!-- ========================================= -->
+    <h1 class="f1">connecting css to html and how to apply it to a tag</h1>
+    <p>
+        hello
+    </p>
+
+    <!-- ========================================= -->
+    <!-- 2. SELECTORS                              -->
+    <!-- ========================================= -->
+    <h1><---selectors---></h1>
+    <div>
+        <h2>1. Using class selectors</h2>
+        <article>
+            <h3> Article 1 </h3>
+            <p class="art">"But I must explain to you how all this mistaken idea of denouncing pleasure and praising
+                pain was born and I will give you a complete account of the system, and expound the actual teachings of
+                the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or
+                avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure
+                rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or
+                pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances
+                occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us
+                ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any
+                right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one
+                who avoids a pain that produces no resultant pleasure?"</p>
+        </article>
+        <h2>2. Using ID selectors</h2>
+        <article>
+            <h3> Article 2 </h3>
+            <p id='second'>"At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+                voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate
+                non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum
+                fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est
+                eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas
+                assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum
+                necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum
+                rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut
+                perferendis doloribus asperiores repellat."</p>
+        </article>
+        <h2>3. Using tag as selectors</h2>
+        <article>
+            <h3> Article 3 </h3>
+            <p1>"On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and
+                demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the
+                pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty
+                through weakness of will, which is the same as saying through shrinking from toil and pain. These cases
+                are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled
+                and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and
+                every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of
+                business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise
+                man therefore always holds in these matters to this principle of selection: he rejects pleasures to
+                secure other greater pleasures, or else he endures pains to avoid worse pains.</p1>
+        </article>
+
+    </div>
+    <!-- ========================================= -->
+    <!-- 3. BACKGROUND                             -->
+    <!-- ========================================= -->
+    <h1><---- Background ----></h1>
+    <div>
+        <h2>Using body tag</h2>
+        <p>1. background-color or background to change color of background </p>
+        <p>2. color to change color of text </p>
+    </div>
+    <!-- ========================================= -->
+    <!-- 4. UNITS AND SIZES                        -->
+    <!-- ========================================= -->
+    <h1><---- Units and Sizes ----></h1>
+    <div>
+        <h2> 1. Using pixel as UNIT </h2>
+        <p2>-- This size of text is set using pixel px UNIT -- </p2>
+        <p>pixel is absolute unit in css it does not change in any device or environment. Other absolute units are mm,
+            cm, Q, pc, pt.</p>
+
+        <h2>2. Using rem (root element) and em for text sizes</h2>
+        <p4 class="unit3">This is text uses the rem Unit for text size. </p4>
+        <p>rem works on bases of default size of text in brouser. means 1rem is equal to default size of text in brouser
+        </p>
+        <p4 class="unit4">This is text uses the em Unit for text size. </p4>
+        <p> em works by multiplying size of parent div</p>
+
+
+        <h2> 3. Using percentage UNITS </h2>
+        <p3 class="unit1">-- This size div is set using percentage UNIT (50%)--
+            <p class="unit2">Percentage is always relative. In this case the size of text is related to the width of the
+                parent div which is 50% and this div is 50% in width that makes it 25% of overall screan</p>
+        </p3>
+
+    </div>
+    <!-- ========================================= -->
+    <!-- 5. BOX MODEL                              -->
+    <!-- ========================================= -->
+    <h1><---- CSS Box Model ----> </h1>
+    <h2>1. This is box </h2>
+    <div class="box">
+        <p5>This is content of box and space between this content and red colored border is called padding.</p5>
+    </div>
+    <h2>2. Making circle in box model</h2>
+    <div class="circle">
+
+    </div>
+
+    <!-- ========================================= -->
+    <!-- 6. TYPOGRAPHY                             -->
+    <!-- ========================================= -->
+    <h1><---- CSS Typography ----></h1>
+    <div class="typography">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Veniam, soluta quaerat fugiat tempora dicta eos
+        repellat ab impedit est incidunt beatae voluptas? Aut, asperiores reprehenderit. Id nulla repellat explicabo
+        inventore.
+        <form>
+            <label for="name">Name :</label>
+            <input id="name" type="text" placeholder="Your Name" />
+            <button> Submit </button>
+        </form>
+    </div>
+    <!-- ========================================= -->
+    <!-- 7. LINKS                                  -->
+    <!-- ========================================= -->
+    <h1><---- Links styling ----></h1>
+
+    <div class="links">
+        Ways style links
+        <h2> 1. Default styling </h2>
+        <p1>If you want to see default style link this is the example <a class="a1" href="R1.html">Page R1</a> for a
+            default style </p1>
+        <h2> 2. Without default styling </h2>
+        <p1>In this link we have </p1><br>
+        <p1>
+            i. Removed default underline from text <a class="a2" href="R1.html">Page R2</a>.</p1><br>
+        <p1>
+            ii. Changed color of link <a class="a3" href="R2.html">Page R2</a></p1><br>
+        <p1>
+            iii. color of visited link and changed hovering color <a class="a4" href="R2.html">Page R4</a></p1><br>
+        <p1>
+            iv. Highlight when using Tab <a class="a5" href="R2.html">Page R4</a></p1>
+    </div>
+    <!-- ========================================= -->
+    <!-- 8. LISTS                                  -->
+    <!-- ========================================= -->
+    <h1><----Styling Lists----></h1>
+    <div>
+        <h2>1. Odered list</h2>
+        <p>Here is the list 'ol' ordered in decimal and reverced</p>
+        <div>
+            <ol class="O1" start="20" reversed>
+                <li>Sedan</li>
+                <li>Truck</li>
+                <li>Coupe</li>
+                <li>Sports</li>
+                <li>SUV</li>
+            </ol>
+            <p>In roman numbering, and also display of how one element can be styled saperately </p>
+            <ol class="O2">
+                <li>Sedan</li>
+                <li>Truck</li>
+                <li>Coupe</li>
+                <li>Sports</li>
+                <li>SUV</li>
+            </ol>
+            <p1>We can give order in any many ways like number in every language alphabates capital or small that too in
+                any language, Other than that roman numbering etc.. also works </p1>
+        </div>
+        <h2>2. Unodered list</h2>
+        <p>Here is the list 'ul' with disc marker</p>
+        <div>
+            <ol class="Uo1" start="20" reversed>
+                <li>Sedan</li>
+                <li>Truck</li>
+                <li>Coupe</li>
+                <li>Sports</li>
+                <li>SUV</li>
+            </ol>
+            <p>In this unordered list we have used square marker and in last element of list we have demonstrated how to
+                apply any content as marker in unorderd lists, We can also use images as markers </p>
+            <ol class="Uo2">
+                <li>Sedan</li>
+                <li>Truck</li>
+                <li>Coupe</li>
+                <li>Sports</li>
+                <li>SUV</li>
+            </ol>
+            <p1>We can give order in any many ways like number in every language alphabates capital or small that too in
+                any language, Other than that roman numbering etc.. also works </p1>
+        </div>
+    </div>
+    <!-- ========================================= -->
+    <!-- 9. MENU                                   -->
+    <!-- ========================================= -->
+    <h1><---- CSS Menu ----></h1>
+    <div class="nav">
+        <h2 class="menutitle">Car Menu</h2>
+        <ul class="cars">
+            <li><a href="R1.html">Van</a></li>
+            <li><a href="R1.html">Sedan</a></li>
+            <li><a href="R1.html">Coupe</a></li>
+            <li><a href="R1.html">SUV</a></li>
+            <li><a href="R1.html">Jeep</a></li>
+
+        </ul>
+
+    </div>
+    <!-- ========================================= -->
+    <!-- 10. DISPLAY INLINE                        -->
+    <!-- ========================================= -->
+    <h1><---- Using display in CSS -----></h1>
+    <h2> Given list is using display as inline (which does ot have line break) </h2>
+    <div class="navbar1">
+        <ul class="Ul3">
+            <li> <a href=""> About </a></li>
+            <li> <a href=""> Projects </a></li>
+            <li> <a href=""> Skills </a></li>
+            <li> <a href=""> Contents </a></li>
+        </ul>
+    </div>
+
+
+    <!-- ========================================= -->
+    <!-- 11. FLOATS                                -->
+    <!-- ========================================= -->
+    <h1><---- Using floats in css ----></h1>
+    <h2> --> If float property is aplied to any block element it takes out that block from natural flow of element thus
+        other block level elements wrap around it.</h2>
+    <div class="block1">This is a floating block</div>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat soluta necessitatibus numquam incidunt qui
+        facilis officiis blanditiis ratione animi eius.</p>
+    <p>Eveniet, recusandae magnam? Dicta ex dolores adipisci velit, eius distinctio repellat doloremque, sunt officia ad
+        officiis magnam omnis impedit saepe.</p>
+    <p>Consequuntur quis fugit modi repellendus? Ducimus reiciendis asperiores ipsum dignissimos voluptas perspiciatis
+        autem quaerat voluptatum minus voluptates voluptatibus, repudiandae esse.</p>
+    <div class="block2">This is a floating block</div>
+    <p>Facilis quas, voluptates dolorem asperiores, sequi iusto beatae facere at voluptatum laudantium accusantium
+        incidunt aliquam illo officia ipsum quibusdam debitis?</p>
+    <p>Illum nihil, saepe libero perspiciatis eligendi aspernatur cupiditate excepturi animi sint esse iste error,
+        possimus ipsa molestiae vel in ratione.</p>
+    <p>Eveniet, recusandae magnam? Dicta ex dolores adipisci velit, eius distinctio repellat doloremque, sunt officia ad
+        officiis magnam omnis impedit saepe.</p>
+    <br>
+    <br>
+    <h2> --> When the block (on which float is applied) is inside a div it creates some undesirable results. </h2>
+    <div class="not-togather">
+        <div class="block1">This is a floating block</div>
+        <p id="second">Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat soluta necessitatibus numquam
+            incidunt qui facilis officiis blanditiis ratione animi eius.</p>
+    </div>
+    <p>Eveniet, recusandae magnam? Dicta ex dolores adipisci velit, eius distinctio repellat doloremque, sunt officia ad
+        officiis magnam omnis impedit saepe.</p>
+    <p>Consequuntur quis fugit modi repellendus? Ducimus reiciendis asperiores ipsum dignissimos voluptas perspiciatis
+        autem quaerat voluptatum minus voluptates voluptatibus, repudiandae esse.</p>
+    <div class="block2">This is a floating block</div>
+    <p>Facilis quas, voluptates dolorem asperiores, sequi iusto beatae facere at voluptatum laudantium accusantium
+        incidunt aliquam illo officia ipsum quibusdam debitis?</p>
+    <p>Illum nihil, saepe libero perspiciatis eligendi aspernatur cupiditate excepturi animi sint esse iste error,
+        possimus ipsa molestiae vel in ratione.</p>
+    <p>Eveniet, recusandae magnam? Dicta ex dolores adipisci velit, eius distinctio repellat doloremque, sunt officia ad
+        officiis magnam omnis impedit saepe.</p>
+    <p1> we want block and para1 togather and rest paragraphs after the block. But the results are not what we have
+        expected. </p1>
+    <br>
+    <p1>The solution is to use <strong> display : flow-root; </strong> or <strong> overflow : auto; </strong></p1>
+
+    <div class="togather">
+        <div class="block1">This is a floating block</div>
+        <p id="second">Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat soluta necessitatibus numquam
+            incidunt qui facilis officiis blanditiis ratione animi eius.</p>
+    </div>
+    <p>Eveniet, recusandae magnam? Dicta ex dolores adipisci velit, eius distinctio repellat doloremque, sunt officia ad
+        officiis magnam omnis impedit saepe.</p>
+    <p>Consequuntur quis fugit modi repellendus? Ducimus reiciendis asperiores ipsum dignissimos voluptas perspiciatis
+        autem quaerat voluptatum minus voluptates voluptatibus, repudiandae esse.</p>
+    <div class="block2">This is a floating block</div>
+    <p>Facilis quas, voluptates dolorem asperiores, sequi iusto beatae facere at voluptatum laudantium accusantium
+        incidunt aliquam illo officia ipsum quibusdam debitis?</p>
+    <p>Illum nihil, saepe libero perspiciatis eligendi aspernatur cupiditate excepturi animi sint esse iste error,
+        possimus ipsa molestiae vel in ratione.</p>
+    <p>Eveniet, recusandae magnam? Dicta ex dolores adipisci velit, eius distinctio repellat doloremque, sunt officia ad
+        officiis magnam omnis impedit saepe.</p>
+
+
+    <!-- ========================================= -->
+    <!-- 12. COLUMNS                               -->
+    <!-- ========================================= -->
+    <h1><---- Columns in CSS without flex or grid ----></h1>
+    <h2> </h2>
+    <div class="columns">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem cupiditate ex sed molestias exercitationem
+            maxime. Lorem ipsum dolor sit amet consectetur adipisicing elit. Error dicta molestias eaque saepe corrupti
+            ab.</p>
+        <p>Voluptate veniam praesentium omnis odit qui, nihil consequuntur temporibus veritatis hic, quaerat asperiores
+            porro illo! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsa optio libero vel ullam.</p>
+        <h2>This header is not splitting up because we used <strong>" column-span : all; " </strong></h2>
+        <p>Sapiente laborum cumque necessitatibus reiciendis quos omnis reprehenderit accusantium, culpa totam in ea
+            blanditiis quae? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dicta nobis sint voluptatum vel?
+            Eveniet tempore repudiandae labore porro!</p>
+        <p>Reprehenderit et libero maiores totam illo minima esse id cupiditate, nulla neque dolores odit harum! Lorem
+            ipsum dolor sit amet consectetur adipisicing elit. Quod necessitatibus qui asperiores! Deleniti nostrum
+            beatae voluptatibus veniam vitae autem!</p>
+    </div>
+    <p>Rerum delectus omnis officiis eveniet ducimus, illo possimus veniam? Dicta, minima. Dolorum recusandae
+        dignissimos provident.</p>
+
+    <!-- ========================================= -->
+    <!-- 13. POSITIONS                             -->
+    <!-- ========================================= -->
+    <h1>----> Positions in CSS ----></h1>
+    <div class="screan">
+        <h2>In CSS there are four position : </h2>
+        <h2 class="pos">
+
+            i. Absolute. <br>
+            ii. Sticky. <br>
+            iii. Relative. <br>
+            iv. Fixed.
+        </h2>
+
+        <div class="outerbox">
+            <div class="innerbox">
+                <div class="box1 sticky">
+                    <p>ii. Sticky</p>
+                    <p class="st">This element sticks top until the end of parent element.</p>
+                </div>
+                <div class="box1 absolute">
+                    <p>i. Absolute</p>
+                    <p class="st">This element finds relative element and acts as relative to them.</p>
+                </div>
+                <div class="box1 relative">
+                    <p>iii. Relative</p>
+                    <p class="st">This element positions itself according to parent .</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <h2>Example of fixed element is the navbar which is fixed on top.</h2>
+        <div class="navbar">
+            <ul class="Ul3">
+                <li> <a href=""> About </a></li>
+                <li> <a href=""> Projects </a></li>
+                <li> <a href=""> Skills </a></li>
+                <li> <a href=""> Contents </a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- ========================================= -->
+    <!-- 14. FLEXBOX                               -->
+    <!-- ========================================= -->
+    <h1><---- Flexbox ----></h1>
+    <h2>i. This exaample of flex property shows how it can be used to make elements align adjust with "align-items : " ,
+        "justify-center : "</h2>
+    <div class="main">
+        <div class="boxs">1</div>
+        <div class="boxs">2</div>
+        <div class="boxs">3</div>
+        <div class="boxs">4</div>
+        <div class="boxs">5</div>
+        <div class="boxs">6</div>
+    </div>
+    <h2>ii. In this example we have used properties like "flex-flow" and making boxes flex containers and using it we
+        can center text inside</h2>
+    <div class="main2">
+        <div class="boxs2">1</div>
+        <div class="boxs2">2</div>
+        <div class="boxs2">3</div>
+        <div class="boxs2">4</div>
+        <div class="boxs2">5</div>
+        <div class="boxs2">6</div>
+    </div>
+    <p> There are other properties comes with flex like grow, shrink and basis</p>
+    <p> You can check out fun flex box exercise at <a href="https://flexboxfroggy.com/" target="_blank">Flexbox
+            Froggy</a> </p>
+
+    <!-- ========================================= -->
+    <!-- 15. GRID                                  -->
+    <!-- ========================================= -->
+    <h1><---- Grid ----></h1>
+    <h2>There are many properties that comes with grid</h2>
+    <div class="grid">
+        <h2>i. Basic properties</h2>
+        <strong>"display:grid"</strong> to create grid and to make columns and rows using. <br>
+        <strong>"grid-template-columns/rows"</strong> to define the number of columns and rows, <br>
+        <strong></strong>template can be written as <strong>"repeat(number of times repeated, pattern of columns/rows in
+            fr or other units)"</strong>. <br>
+        <strong>"fr"</strong> is used to make columns/rows in fraction of available space. <br>
+        <strong>"grid-auto-rows/columns"</strong> are used to define the size of rows and columns. <br>
+        <strong>"grid-gap"</strong> is used to define the gap between columns and rows. <br>
+        <container1>
+            <div class="box3">1</div>
+            <div class="box3">2</div>
+            <div class="box3">3</div>
+            <div class="box3">4</div>
+            <div class="box3">5</div>
+            <div class="box3">6</div>
+        </container1>
+    </div>
+    <div class="grid">
+        <h2>ii. Advanced properties</h2>
+        <strong>":nth chiled"</strong> using sudo selectors to apply different styles to different grid elements. <br>
+        <strong>"start-line / end-line"</strong> Defining size of element by specifying row and column numbers. <br>
+        <strong>"flex properties"</strong> we can use all flex properties in grid too. <br>
+
+        <container2>
+            <div class="box3">1</div>
+            <div class="box3">2</div>
+            <div class="box3">3</div>
+            <div class="box3">4</div>
+            <div class="box3">5</div>
+            <div class="box3">6</div>
+        </container2>
+    </div>
+    <h2>iii. application of grid</h2>
+    <div class="grid1">
+        <header class="header el">Header</header>
+        <container3>
+            <div class="box3">1</div>
+            <div class="box3">2</div>
+            <div class="box3">3</div>
+            <div class="box3">4</div>
+            <div class="box3">5</div>
+            <div class="box3">6</div>
+
+        </container3>
+        <aside class="sidebar el">Sidebar</aside>
+        <footer class="footer el">Footer</footer>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- 16. IMAGES                                -->
+    <!-- ========================================= -->
+    <h1><---- Images & Media queries----></h1>
+    <h2>This shows how to use images. and also media queries how you can change the layout of the page according to the
+        screen size. In this one when you make the screen smaller the profile and Intro will be alligned vertically instead of horizontally</h2>
+    <div class="container5">
+        <section class="hero">
+            <figure class="profile-pic-figure">
+                <img src="./Images/123.webp" alt="adsfg" height="2000" width="2000">
+
+            </figure>
+            <h1 class="intro">
+                <span>Hello,👋</span>
+                <span>I'm Universe</span>
+            </h1>
+        </section>
+    </div>
+</body>
+
+
+</html>
