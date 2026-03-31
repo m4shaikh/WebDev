@@ -1,0 +1,103 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+
+main{
+    background: #BC6C25;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+
+card{
+    background: #FEFAE0 ;
+    width: 50vw;
+    height: auto;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+
+    flex-direction: column;    
+}
+
+h2{
+    font-size: 40px;
+    color: #606C38;
+    margin: 0px 0px 12px 0px ;
+}
+p{
+    margin-bottom: 18px;
+    color:#606C38;
+}
+button{
+
+    background: #DDA15E;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+a , a:visited{
+    text-decoration: none;
+    color: #283618;
+}
+
+#question{
+    font-size: 24px;
+    
+}
+#status{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0px 8px 16px 8px ;
+}
+span{
+    font-size: 14px;
+    color: #606C38;
+}
+#options{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+#option0, #option1 ,#option2, #option3 {
+    display: flex;
+    border: 2px solid #606C38;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background:#DDA15E;
+    cursor: pointer;
+}
+
+#progress{
+    border: 1px solid #606C38;
+    border-radius: 10px;
+    width: 100%;
+    height: 10px;
+    background:#FEFAE0;
+    display: flex;
+    justify-content: space-evenly;       
+    border: 1px solid #606C38;
+
+}
+
+
+#column1{
+    width: 100%;
+    background:#606C38;
+    border-radius: 10px;
+}

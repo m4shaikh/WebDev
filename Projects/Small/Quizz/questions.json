@@ -1,0 +1,29 @@
+{
+  "quiz": [
+    {
+      "question": "What will be the output of console.log(typeof null);",
+      "options": ["null", "object", "undefined", "number"],
+      "answer": "object"
+    },
+    {
+      "question": "What is the value of 2^5 × 2^3?",
+      "options": ["256", "64", "128", "32"],
+      "answer": "256"
+    },
+    {
+      "question": "Which data structure uses FIFO (First In First Out)?",
+      "options": ["Stack", "Queue", "Tree", "Graph"],
+      "answer": "Queue"
+    },
+    {
+      "question": "Who is known as the Father of Computer?",
+      "options": ["Alan Turing", "Charles Babbage", "John von Neumann", "Bill Gates"],
+      "answer": "Charles Babbage"
+    },
+    {
+      "question": "What will this Python code output: print([i for i in range(3)])?",
+      "options": ["[1, 2, 3]", "[0, 1, 2]", "[0, 1, 2, 3]", "Error"],
+      "answer": "[0, 1, 2]"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizz</title>
+    <link rel="stylesheet" href="quizz.css">
+</head>
+<body>
+    <main>
+        <card>
+            <h2 id="question">This is a sample Question ?</h2>
+            <div id="status"> <span>Question 2 of 5</span> <span>Score: 3</span></div>
+            <div id="options"> 
+                <div id="option0" onclick="optionSelected()">  </div>
+                <div id="option1" onclick="optionSelected()">  </div>
+                <div id="option2" onclick="optionSelected()">  </div>
+                <div id="option3" onclick="optionSelected()">  </div>
+            </div>
+            <div id="progress">
+                <div id="column1"></div>
+            </div>
+        </card>
+        
+    </main>
+    <script src="./quizzQuestion.js"></script>
+</body>
+</html>
