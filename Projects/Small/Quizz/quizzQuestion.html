@@ -9,16 +9,18 @@
 <body>
     <main>
         <card>
-            <h2 id="question">This is a sample Question ?</h2>
-            <div id="status"> <span>Question 2 of 5</span> <span>Score: 3</span></div>
-            <div id="options"> 
-                <div id="option0" onclick="optionSelected()">  </div>
-                <div id="option1" onclick="optionSelected()">  </div>
-                <div id="option2" onclick="optionSelected()">  </div>
-                <div id="option3" onclick="optionSelected()">  </div>
-            </div>
-            <div id="progress">
-                <div id="column1"></div>
+            <div id="queandoptions">
+                <h2 id="question">This is a sample Question ?</h2>
+                <div id="status"> <span id="questionNumber">Question 2 of 5</span> <span>Score: 3</span></div>
+                <div id="options"> 
+                    <div id="option0" onclick="optionSelected(this)">  </div>
+                    <div id="option1" onclick="optionSelected(this)">  </div>
+                    <div id="option2" onclick="optionSelected(this)">  </div>
+                    <div id="option3" onclick="optionSelected(this)">  </div>
+                </div>
+                <div id="progress">
+                    <div id="column1"></div>
+                </div>
             </div>
         </card>
         

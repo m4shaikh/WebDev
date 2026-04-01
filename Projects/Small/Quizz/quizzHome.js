@@ -8,6 +8,6 @@ async function getQuestions(){
     localStorage.setItem('questions',JSON.stringify(data))
 } 
 
-async function startQuizz(){
+function startQuizz(){
     window.location.href = './quizzQuestion.html'
 }

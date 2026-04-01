@@ -21,11 +21,12 @@ card{
     background: #FEFAE0 ;
     width: 50vw;
     height: auto;
-    padding: 2rem;
+    box-shadow: 8px 8px 8px #DDA15E, inset 8px 8px 8px #DDA15E ;
+    
     border-radius: 0.5rem;
     display: flex;
     align-items: center;
-
+    justify-content: center;
     flex-direction: column;    
 }
 
@@ -83,6 +84,21 @@ span{
     cursor: pointer;
 }
 
+#content{
+    margin: 0;
+    padding: 2rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#queandoptions{
+    margin: 0;
+    padding: 2rem;
+    width: 100%;
+}
 #progress{
     border: 1px solid #606C38;
     border-radius: 10px;
@@ -101,3 +117,8 @@ span{
     background:#606C38;
     border-radius: 10px;
 }
+
+.disabled-div {
+    pointer-events: none;
+}
+
