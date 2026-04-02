@@ -1,14 +1,15 @@
 let questions;
 let questionCount = 0
 const questionCountStatus = document.getElementById('questionNumber')
-const questionAndOptions = document.getElementById('queandoptions')
+const cardContent = document.getElementById('content')
 let rightAnswer  = ''
+let score = 0
 
 document.addEventListener('DOMContentLoaded',()=>{
     questions = JSON.parse(localStorage.getItem('questions'));
     console.log(questions)
     if (!questions) {
-        window.location.href = './index.html';
+        window.location.href = './quizzHome.html';
         return;
     }
     startQuizz()
@@ -25,28 +26,29 @@ function showQuestion(i){
 
     console.log(questions)
     const question = document.getElementById('question')
-    questionAndOptions.classList.remove("disabled-div");
-
+    cardContent.classList.remove("disabled-div");
+    questionCountStatus.innerText = `Question ${i+1} / ${questions.quiz.length}`
     question.innerText = questions.quiz[i].question
         
-    for(let j = 0; j <= questions.quiz[i].options.length; j++){
+    for(let j = 0; j < questions.quiz[i].options.length; j++){
         const option = document.getElementById(`option${j}`)
         
         let answer = questions.quiz[i].answer
         if (questions.quiz[i].options[j] === answer){
-            rightAnswer = ''
             rightAnswer = document.getElementById(`option${j}`)
         }
-
-        option.innerText = questions.quiz[i].options[j]
+        if(option){
+            option.innerText = questions.quiz[i].options[j]
+        }
     }
 }
 
 function optionSelected(element){
-    questionAndOptions.classList.add("disabled-div");
+    cardContent.classList.add("disabled-div");
     console.log(element.textContent)
     if ( element.textContent === questions.quiz[questionCount].answer ){
         console.log('Right Answer')
+        score += 1
         document.getElementById(element.id).style.borderColor = 'Green'
         document.getElementById(element.id).style.borderWidth = '4px'
 
@@ -69,7 +71,53 @@ function optionSelected(element){
             showQuestion(questionCount);
         }
         else{
-            window.location.href = './quizzHome.html'
+            showResult()
         }
     },1500)
+}
+
+
+function showResult(){
+   
+    
+    switch(true){
+        case(score < (1/2*(questions.quiz.length))):{
+            document.getElementById('content').innerHTML = `<h2>Quiz Results!</h2>
+                <div id="highlight">
+                    <h3>You can do better!</h3>
+                    <p>You scored : ${score} out of ${questions.quiz.length}
+                </div>`
+
+            break;
+        }
+        case(score < (3/5*(questions.quiz.length))):{
+            document.getElementById('content').innerHTML = `<h2>Quiz Results!</h2>
+                <div id="highlight">
+                    <h3>You did good</h3>
+                    <p>You scored : ${score} out of ${questions.quiz.length}
+                </div>`
+
+            break;
+        }
+        case(score < (4/5*(questions.quiz.length))):{
+            document.getElementById('content').innerHTML = `<h2>Quiz Results!</h2>
+                <div id="highlight">
+                    <h3>You did great</h3>
+                    <p>You scored : ${score} out of ${questions.quiz.length}
+                </div>`
+
+            break;
+        }
+        case(score === questions.quiz.length):{
+            document.getElementById('content').innerHTML = `<h2>Quiz Results!</h2>
+                <div id="highlight">
+                    <h3>Are you a genius</h3>
+                    <p>You scored : ${score} out of ${questions.quiz.length}
+                </div>`
+
+            break;
+        }
+        
+    }      
+
 }

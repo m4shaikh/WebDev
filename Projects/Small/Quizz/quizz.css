@@ -6,7 +6,7 @@
 }
 
 main{
-    background: #BC6C25;
+    background: #606C38;
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -94,11 +94,6 @@ span{
     justify-content: center;
 }
 
-#queandoptions{
-    margin: 0;
-    padding: 2rem;
-    width: 100%;
-}
 #progress{
     border: 1px solid #606C38;
     border-radius: 10px;
@@ -122,3 +117,17 @@ span{
     pointer-events: none;
 }
 
+#highlight{
+    display: flex;
+    flex-direction: column;
+    padding:1rem 1.2rem 1rem 1.2rem;
+    gap:8px;
+    border-radius: 10px;
+    background:hsl(32, 65%, 62%, 20%);
+    align-items: center;
+    justify-content: center;
+}
+p{
+    font-size: 1.2rem;
+    font-weight: bold;
+}
