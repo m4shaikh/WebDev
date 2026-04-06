@@ -1,0 +1,78 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+#main{
+    width: 100vw;
+    height: 100vh;
+    background-color: tomato;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.card{
+    max-width: 60vw;    
+    height: auto;
+    background: yellowgreen;
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+#intro-card{
+  margin: 0;
+}
+
+
+
+#intro-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+#selector{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#genrate-button{
+    background-color: tomato;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+#color-card{
+    margin: 0;
+    display: none;
+
+}
+
+#color-content{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}   
+
+.sample{
+    width: 80px;
+    height: 80px;
+    background-color: aliceblue;
+}
+
+.colors{
+    display: flex;
+    flex-direction: column;
+
+}
+.color-code{
+    margin: 2px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gen</title>
+    <link rel="stylesheet" href="./Home.css">
+</head>
+<body>
+    
+    <div id="main">
+
+        <div id="intro-card" class="card">
+            <div id="intro-content">
+
+                <h2> Welcome to palette generator</h2>
+                
+                <div id="selector">
+                
+                    <label for="color-count-selector">Select number of colors to generate</label>
+                    <select name="color-count" id="color-count-selector">
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                
+                </div>
+
+                <button id="genrate-button" onclick="generate()">Generate</button>
+
+            </div>
+        </div>
+
+        <div id="color-card" class="card">
+            <div id="color-content">
+
+                <div id="color1" class="colors">
+                    <div class="sample"> </div>
+                    <div class="color-code">
+                        <span>text</span>
+                        <span>x</span>
+                    </div>
+
+                </div>
+                <div id="color1" class="colors">
+                    <div class="sample"> </div>
+                    <span>text</span>
+
+                </div>
+                <div id="color1" class="colors">
+                    <div class="sample"> </div>
+                    <span>text</span>
+
+                </div>
+                <div id="color1" class="colors">
+                    <div class="sample"> </div>
+                    <span>text</span>
+
+                </div>
+                <div id="color1" class="colors">
+                    <div class="sample"> </div>
+                    <span>text</span>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="./Home.js"></script>
+</body>
+</html>
