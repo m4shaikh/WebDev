@@ -6,7 +6,7 @@
 #main{
     width: 100vw;
     height: 100vh;
-    background-color: tomato;
+    background: linear-gradient(45deg,#CAF0F8,#a7bfec,#CAF0F8);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,16 +16,31 @@
 .card{
     max-width: 60vw;    
     height: auto;
-    background: yellowgreen;
-    padding: 2rem;
+    background: #ffffff;
+    box-shadow:15px 25px 100px #03045E;
+    padding: 1rem;
     border-radius: 1rem;
+    border: 4px solid black;
 }
 
 #intro-card{
   margin: 0;
+  
 }
 
+h2{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
 
+#line{
+    height:2px;
+    width: 50%;
+    display: flex;
+    justify-self: center;
+    background:#325597;
+    position: relative;
+    margin-bottom: 1rem;
+}
 
 #intro-content{
     display: flex;
@@ -33,46 +48,92 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+    padding: 1rem;
 }
 
+label{
+    font-family: system-ui;
+    font-size: large;
+    font-weight: bold;
+}
+
+select{
+    padding: 8px;
+    background:#325597;
+    color: #ffffff;
+    transition: 0.5s;
+    border:2px solid black ;
+}
+
+select:hover,
+select:focus {
+  background:#03045E;
+}
+
+
 #selector{
-    width: 100%;
+    width:105%;
     display: flex;
     justify-content: space-between;
+    margin-bottom: 1rem;
 }
 
 #genrate-button{
-    background-color: tomato;
+    background-color: #03045E;
+    color: #ffffff;
     padding: 8px;
     border-radius: 8px;
 }
-
+#regenrate{
+    display: flex;
+    justify-self: end;
+    margin-bottom: 8px;
+    background-color: #03045E;
+    color: #ffffff;
+    padding: 4px;
+    border-radius: 8px;
+}
 #color-card{
     margin: 0;
     display: none;
-
+    
 }
 
 #color-content{
     display: flex;
     flex-direction: row;
     gap: 1rem;
+
+    
 }   
 
-.sample{
-    width: 80px;
-    height: 80px;
+.colors{
+    width: 100px;
+    height: 100px;
     background-color: aliceblue;
+    border: 2px solid #03045E;
+    border-radius: 16px 16px 0px 0px ;
+    
 }
 
-.colors{
+span{
+    font-size: 16px;
+    font-weight: 900;
+    color:darkblue;  
+}
+
+.card-container{
     display: flex;
     flex-direction: column;
-
+    
 }
 .color-code{
-    margin: 2px;
+    margin: 4px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
+
+
+
+
