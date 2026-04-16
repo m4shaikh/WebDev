@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="./Home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Saira+Stencil:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div id="main">
+        <div id="balance-card">
+            <span>Your Balance</span>
+            <h1 id="balance" class="saira-stencil-goodfont">0</h1>
+            <div id="income-expense">
+                <div id="income-card"><span>Income</span>
+                    <h2 id="income" class="saira-stencil-goodfont"></h2>
+                </div>
+                <div id="expense-card"><span>Expense</span>
+                    <h2 id="expense" class="saira-stencil-goodfont"></h2>
+                </div>
+            </div>
+        </div>
+        <div id="transactions-section">
+
+            <div id="transactions">
+
+            </div>
+
+            <div id="add-transaction">
+                <div id="category">
+                    <span id="category-spent" onclick="setCategory()">Spent</span>
+                    <span id="category-recived" onclick="setCategory()">Recived</span>
+                </div>
+                <div id="add-detail">
+                    <span>Add Transaction</span>
+                    <div id="description">
+                        <label for="description-input">Description:</label>
+                        <input type="text" name="description-input" id="description-input">
+                    </div>
+                    <div id="ammount">
+                        <label for="ammount-input">Ammount:</label>
+                        <input type="number" name="ammount-input" id="ammount-input">
+                    </div>
+                    <button id="submit" onclick="addTransaction()">Add</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="./Home.js"></script>
+</body>
+
+</html>

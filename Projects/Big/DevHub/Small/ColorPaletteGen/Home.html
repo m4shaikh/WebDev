@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gen</title>
+    <link rel="stylesheet" href="./Home.css">
+</head>
+<body>
+    
+    <div id="main">
+
+        <div id="intro-card" class="card">
+            <div id="intro-content">
+
+                <h2>Color Palette Generator</h2>
+                <div id="line"></div>
+                <div id="selector">
+                
+                    <label for="color-count-selector">Number of Colors</label>
+                    <select name="color-count" id="color-count-selector">
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                
+                </div>
+
+                <button id="genrate-button" onclick="generate()">Generate</button>
+
+            </div>
+        </div>
+
+        <div id="color-card" class="card">
+            <button id="regenrate" onclick="regenerate()">Regenrate</button>
+            <div id="color-content">
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="./Home.js"></script>
+</body>
+</html>
