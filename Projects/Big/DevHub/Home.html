@@ -10,19 +10,20 @@
 
 <body>
     <div id="main">
+        
         <div id="navbar">
             <div id='logo'>DevHub</div>
             <div id="searchbar"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"
                     viewBox="0 0 512 512"><!--!Font Awesome Free v5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
-                    <path fill="rgb(42, 51, 69)"
+                    <path fill="currentColor"
                         d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z" />
                 </svg><span>Search</span></div>
-            <div id="dark-light-mode">
-                <div id="inside-circle"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"
-                        viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
-                        <path fill="rgb(255, 255, 255)"
-                            d="M320 64C178.6 64 64 178.6 64 320C64 461.4 178.6 576 320 576C388.8 576 451.3 548.8 497.3 504.6C504.6 497.6 506.7 486.7 502.6 477.5C498.5 468.3 488.9 462.6 478.8 463.4C473.9 463.8 469 464 464 464C362.4 464 280 381.6 280 280C280 207.9 321.5 145.4 382.1 115.2C391.2 110.7 396.4 100.9 395.2 90.8C394 80.7 386.6 72.5 376.7 70.3C358.4 66.2 339.4 64 320 64z" />
-                    </svg></div>
+            <div id="dark-light-mode" onclick="toggle()">
+                
+                <div id="inside-circle">
+                    <img id="sun" src="./icons8-sun.svg" alt="">
+                    <img id="moon" src="./icons8-moon-50.png" alt="">
+                </div>
             </div>
         </div>
         <div id="sidebar">
@@ -38,45 +39,9 @@
         <div id="project-library-container">
 
             <div id="project-library">
-                <div id="0" class="project" onclick="renderProject(this)">
-                    <div class="project-image" ><img src="./img.avif" alt="imag" height=""></div>
-                    <div class="project-description"> Color Palette Generator</div>
-                </div>
-                <div id="1" class="project" onclick="renderProject(this)">
-                    <div class="project-image"><img src="./img.avif" alt="imag" height=""></div>
-                    <div class="project-description">This is projct description This gibrish to check size of the div
-                        that carries this div</div>
-                </div>
-                <div id="2" class="project" onclick="renderProject(this)">
-                    <div class="project-image"><img src="./img.avif" alt="imag" height=""></div>
-                    <div class="project-description">This is projct description This gibrish to check size of the div
-                        that carries this div</div>
-                </div>
-                <div id="3" class="project" onclick="renderProject(this)">
-                    <div class="project-image"><img src="./img.avif" alt="imag" height=""></div>
-                    <div class="project-description">This is projct description This gibrish to check size of the div
-                        that carries this div</div>
-                </div>
-                <div id="project5" class="project">
-                    <div class="project-image"><img src="./img.avif" alt="imag" height=""></div>
-                    <div class="project-description">This is projct description This gibrish to check size of the div
-                        that carries this div</div>
-                </div>
-                <div id="project6" class="project">
-                    <div class="project-image"><img src="./img.avif" alt="imag" height=""></div>
-                    <div class="project-description">This is projct description This gibrish to check size of the div
-                        that carries this div</div>
-                </div>
-                <div id="project7" class="project">
-                    <div class="project-image"><img src="./img.avif" alt="imag" height=""></div>
-                    <div class="project-description">This is projct description This gibrish to check size of the div
-                        that carries this div</div>
-                </div>
-                <div id="project8" class="project">
-                    <div class="project-image"><img src="./img.avif" alt="imag" height=""></div>
-                    <div class="project-description">This is projct description This gibrish to check size of the div
-                        that carries this div</div>
-                </div>
+               
+              
+              
             </div>
         </div>
     </div>
