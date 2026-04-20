@@ -9,5 +9,6 @@ async function getQuestions(){
 } 
 
 function startQuizz(){
+    getQuestions()
     window.location.href = './quizzQuestion.html'
 }

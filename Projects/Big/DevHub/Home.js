@@ -33,11 +33,27 @@ Projects = [
     }
 ]
 
+Skills = [
+    {
+        title : 'Frontend',
+        list : ['HTML','CSS','JavaScript']
+    },
+    {
+        title : 'Backend',
+        list : ['Django','Node','SQL']
+    },
+    {
+        title : 'Programming',
+        list : ['Python','JavaScript','C++']
+    }
+]
 
 //script
 
 const mainPage = document.getElementById('main')
 const iframePage = document.getElementById('viewer-section') 
+const iframe = document.getElementById('iframe') 
+const skillTags = document.getElementById('tags')
 
 const buttonCircle = document.getElementById('inside-circle')
 const body = document.body
@@ -56,10 +72,36 @@ window.addEventListener('DOMContentLoaded', () => {
     } else {
         isCurrentThemeDark = false;
     }
-
+    renderSkillTags();
     renderProjectCards(); 
 });
 
+
+function renderSkillTags(){
+    skillTags.innerHTML = ''
+    Skills.forEach(Category => {
+        const skillCategory = document.createElement('div')
+        skillCategory.id = 'tag-category'
+
+        const categoryTitle = document.createElement('div')
+        categoryTitle.className = 'category-title'
+        categoryTitle.textContent = `${Category.title}`
+
+        skillCategory.appendChild(categoryTitle)
+
+        const skillsContainer = document.createElement('div')
+        skillsContainer.className = 'skills-container'
+        Category.list.forEach(skill => {
+            const skillCard = document.createElement('skill-card')
+            skillCard.className = 'skill-card'
+            skillCard.textContent = `${skill}`
+            skillsContainer.appendChild(skillCard)
+        })
+
+        skillCategory.appendChild(skillsContainer)
+        skillTags.appendChild(skillCategory)
+    })
+}
 
 
 function renderProjectCards(){
@@ -80,8 +122,8 @@ function renderProjectCards(){
 
 
 function renderProject(element){
-    projectId = element.id;
-    document.getElementById('iframe').src = Projects[projectId].url
+    let projectId = element.id;
+    iframe.src = Projects[projectId].url
 
     mainPage.style.display = 'none'
     iframePage.style.display = 'block'
@@ -100,3 +142,9 @@ function toggle() {
 }
 
 
+function backButton(){
+    mainPage.style.display = 'block'
+    iframePage.style.display = 'none'
+
+    iframe.src = ''
+}

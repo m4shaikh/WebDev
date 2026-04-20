@@ -21,6 +21,9 @@
   --text-secondary: #7C2D12;
   --text-muted: #9A3412;
 
+  --scrollbar:#DC2626;
+  --scrollbar-track:#f1f5f9;
+
   --accent-primary: #F97316;
   --accent-secondary: #EA580C;
 
@@ -32,7 +35,7 @@
   --error: #DC2626;
   --warning: #F59E0B;
 
-  --shadow: rgba(249, 115, 22, 0.15);
+  --shadow: rgba(249, 115, 22, 0.55);
 }
 .dark {
   /* BACKGROUNDS */
@@ -44,6 +47,10 @@
   --text-primary: #E0F2FE;
   --text-secondary: #7DD3FC;
   --text-muted: #38BDF8;
+
+
+  --scrollbar:#2c2929c7;
+  --scrollbar-track:#f1f5f9;
 
   /* ACCENTS */
   --accent-primary: #22D3EE;
@@ -60,19 +67,31 @@
   --warning: #F59E0B;
 
   /* SHADOW */
-  --shadow: rgba(34, 211, 238, 0.25);
+  --shadow: rgba(34, 211, 238, 0.5);
 }
+
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+::-webkit-scrollbar-thumb {
+  background:var(--scrollbar);
+}
+::-webkit-scrollbar {
+  width: 4px;
+}
+
 #main{
     width: 100%;
     height: auto;
     background: var(--bg-primary); 
-    
+    margin-top: -1px;
 }
 
 #navbar{
-    background: rgba(255, 255, 255, 0.6);
+    background: var(--bg-primary);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1.5px solid var(--border);
     display: flex;
     width: 100%;
     background: var(--bg-elevated);
@@ -94,30 +113,48 @@
 #logo{
     color: var(--text-primary); 
     font-size: 2.3rem;
-    text-shadow: 2px 2px 8px var(--shadow);
+    text-shadow: 1px 2px 5px var(--shadow);
+    cursor: pointer;
 }
 
 #searchbar{
     display: flex;
     width: 25%;
     height: auto;
-
-    justify-content: center;
+    
+    justify-content: start;
+    
     align-items: center;
     gap: 1rem;
     
-    padding: 0.8rem;
+    padding: 0.6rem 0.8rem 0.6rem 0.8rem ;
     
     background: var(--bg-primary);
     color: var(--text-primary);
     
     border: 2px solid var(--border);
     border-radius: 2.2rem;
-    box-shadow: 0px 1px 1px var(--shadow);
+    box-shadow: 0px 2px 4px var(--shadow);
 
     font-size: large;
     font-weight: 600;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+input{
+    display: flex;
+    background-color: var(--bg-primary);
+    justify-self: center;    
+    outline: none;
+    border: none;
+    color: var(--text-primary);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    width: 100%;
+    font-size: large;
+}
+
+input:focus{
+    outline: none;
+    border: none;
 }
 
 #dark-light-mode{
@@ -132,9 +169,6 @@
     transition: all 0.3s ease;
 }
 
-p{
-    color: var(--text-primary);
-}
 
 #inside-circle {
     height: 2rem;
@@ -157,7 +191,7 @@ p{
     position: absolute;
     height: 18px;
     width: 18px;
-    transition: all 0.4s ease;
+    transition: all 0.6s ease;
 }
 
 #sun {
@@ -187,17 +221,60 @@ p{
 
 #sidebar{
     width:20%;
-    padding: 1rem;
-
-    top:100px;
-    position: sticky;
+    padding: 0rem 0.25rem 1rem 1rem;
+    top:94px;
+    position: fixed;
     z-index: 1;
+    height: calc(100vh - 94px);
+    overflow: hidden;
 }
 
+/*This one is outer container*/
+
+#tags{
+    padding-top:12px ;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    overflow-y: auto;
+}
+
+#tags::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* Inside tags this container saperates tags by categories 
+    This have 2 childs: 
+    1.category-title 
+    2.skills-container: This holds skill-cards */
+
+#tag-category{
+    margin-bottom: 20px;
+}
+
+.category-title {
+    color: var(--text-secondary);
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
 .skill-card{
+  
+    display: inline-block;  
+    margin-top: 4px;
+    margin-bottom: 4px;
     background: var(--bg-secondary);
     color: var(--text-secondary);
     
+    font-size: xx-small;
+
     border-radius: 4px;
     
     padding: 4px 8px;
@@ -208,15 +285,17 @@ p{
 
 .skill-card:hover{  
     background: var(--hover);
-    transform: scale(1.1);
 }
 
 #project-library-container{
     color: var(--text-primary);    
     display: flex;
+    margin-top: 92px;
     margin-left: 20%;
     padding: 1rem;
 }
+
+
 
 #project-library{
     display: grid;
@@ -262,17 +341,7 @@ p{
     border-radius: 1rem;
 }
 
-.project-description{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family:'Trebuchet MS', sans-serif;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
+
 
 #viewer-section{
     width: 100%;
@@ -287,8 +356,12 @@ iframe{
 }
 
 #back-button{
+    margin-top: 1rem;
+    margin-left: 1rem;
+    border-radius: 6px;
     padding: 8px;
-    background-color: black;
+    background-color: rgb(171, 210, 154);
+    position: fixed;
 
 }
 

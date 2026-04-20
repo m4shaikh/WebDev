@@ -1,172 +1,228 @@
-*{
-    margin: 0px;
-    padding: 0px;
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
-.saira-stencil-goodfont{
-    font-family: "Saira Stencil", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 600;
-    font-style: normal;
-    font-variation-settings: "wdth" 100;
+
+/* THEME */
+:root {
+  --bg-primary: #0F172A;
+  --bg-secondary: #1E293B;
+  --bg-elevated: #334155;
+
+  --text-primary: #F1F5F9;
+  --text-secondary: #94A3B8;
+
+  --accent-green: #22C55E;
+  --accent-red: #EF4444;
+  --accent-blue: #3B82F6;
+
+  --border: #475569;
 }
-#main{
-    height: auto;
-    width: 100%;
-    padding: 0.8rem 2rem;
-    background: #FEFAE0;
+
+/* GLOBAL */
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
 }
-h1{
+
+h1 {
     font-size: 3rem;
+    font-weight: 600;
 }
-#balance-card{
-    height: auto;
-    margin: 0rem 2rem 0rem 2rem;
-    padding: 1rem;
-    background-color: #CCD5AE;
-    display: flex;
-    flex-direction: column;
-    border-radius: 0.8rem;
-    box-shadow: 2px 2px 4px #7d6d2f;
-    align-items: center;
-    justify-content: center;
+
+span {
+    font-weight: 500;
+    color: var(--text-secondary);
 }
-#income-expense{
+
+/* MAIN */
+#main {
+    
     width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    padding: 1rem;
+    padding: 2rem 10rem;
 }
-#income-card{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0.5rem 3rem 0.5rem 3rem;
-    width: 100%;
-    border-radius: 0.5rem;
-    box-shadow: inset 2px 2px 8px rgba(0, 128, 0 ,0.5);
-    background-color: #e0e4d1;
-}
-#income{
-    color: #3fb839;
-}
-#expense-card{
+
+/* BALANCE CARD */
+#balance-card {
+    background: linear-gradient(135deg, #1E293B, #334155);
+    border-radius: 1rem;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 1rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* INCOME / EXPENSE */
+#income-expense {
     width: 100%;
-    padding: 0.5rem 3rem 0.5rem 3rem;
-    border-radius: 0.5rem;
-    box-shadow: inset 2px 2px 8px rgba(255, 0, 0,0.5);
-    background-color: #e0e4d1;
-}
-#expense{
-    color: red;
-}
-#transactions-section{
     display: flex;
     gap: 1rem;
-    margin: 2rem 2rem 0 2rem;
 }
-#transactions{
+
+#income-card,
+#expense-card {
+    flex: 1;
+    background: var(--bg-elevated);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    text-align: center;
+    transition: 0.3s;
+}
+
+#income-card:hover,
+#expense-card:hover {
+    transform: translateY(-4px);
+}
+
+#income {
+    color: var(--accent-green);
+}
+
+#expense {
+    color: var(--accent-red);
+}
+
+/* TRANSACTIONS SECTION */
+#transactions-section {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+/* TRANSACTION LIST */
+#transactions {
+    background: var(--bg-secondary);
+    border-radius: 1rem;
+    padding: 1rem;
+    max-height: 350px;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    width: 100%;
-    padding: 1rem;
-    background-color: #EEF0F2;
-    overflow-y: scroll;
-    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
-    border-radius: 1rem;
-    max-height:300px;
+    gap: 0.5rem;
 }
-.transaction{
+
+/* SINGLE TRANSACTION */
+.transaction {
+    background: var(--bg-elevated);
     padding: 1rem;
-    background-color: #e0e4d1;
-    border-right: 4px solid red;
-    border-radius: 8px;
+    border-radius: 0.5rem;
+    border-right: 4px solid var(--accent-red); /* default = expense */
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    transition: 0.2s;
 }
-span{
-    font-weight: 550;
+
+.transaction:hover {
+    background: #475569;
 }
-#message{
-    display: flex;
-    color:#6a6f59;
-    font-size: 3.4rem;
-    flex-wrap: wrap;
-    justify-self: center;
-    align-self: center;
+
+/* EMPTY MESSAGE */
+#message {
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    text-align: center;
+    margin-top: 2rem;
 }
-#add-transaction{
-    width: 100%;
-    height: auto;
+
+/* ADD TRANSACTION PANEL */
+#add-transaction {
     display: flex;
     flex-direction: column;
 }
-#category{
-    position: relative;
+
+/* CATEGORY TABS (IMPORTANT: works with your JS inline styles) */
+#category {
     display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
 }
-#category-spent{
-    position: relative;
-    z-index: 1;
-    transition: all 0.5s;
-    margin-bottom: -12px;
-    padding: 0.5rem 1rem 0.5rem 1rem;
+
+#category-spent,
+#category-recived {
+    flex: 1;
+    text-align: center;
+    padding: 0.6rem;
+    border-radius: 0.5rem;
     cursor: pointer;
-    border-radius: 1rem 1rem 0 0;
-    background-color: #e0e4d1;
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    transition: 0.2s;
 }
-#category-recived{
-    position: relative;
-    z-index: 1;
-    transition: all 0.5s;
-    cursor: pointer;
-    margin-bottom: -12px;
-    padding: 0.5rem 1rem 0.5rem 1rem;
-    border-radius: 1rem 1rem 0 0;
-    background-color: #FEFAE0;
+
+/* DEFAULT STATE */
+#category-spent {
+    background: var(--bg-elevated);
 }
-#add-detail{
-    margin-top: 8px;
-    position: relative;
-    z-index: 2;
-    height: auto;
+
+#category-recived {
+    background: var(--bg-secondary);
+}
+
+/* FORM BOX */
+#add-detail {
+    background: var(--bg-secondary);
     border-radius: 1rem;
-    border-top-left-radius: 0;
     padding: 1rem;
-    background-color: #e0e4d1;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
 }
-#description{
+
+/* INPUT GROUPS */
+#description,
+#ammount {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 4px;
 }
-#ammount{
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    margin-bottom: 0.5rem;
+
+label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
 }
-label{
-    font-size: small;
-    font-weight: bold;
+
+/* INPUTS */
+input {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    padding: 0.6rem;
+    border-radius: 0.5rem;
+    color: white;
 }
-input{
-    background: #CCD5AE;
-    padding: 8px;
-    border-radius: 8px;
+
+input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
 }
-button{
-    padding: 8px;
-    border-radius: 8px;
+
+/* BUTTON */
+button {
+    padding: 0.7rem;
+    border-radius: 0.5rem;
+    border: none;
+    background: var(--accent-blue);
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s;
 }
+
+button:hover {
+    background: #2563EB;
+}
+
+/* SCROLLBAR */
+#transactions::-webkit-scrollbar {
+    width: 6px;
+}
+
+#transactions::-webkit-scrollbar-thumb {
+    background: #64748B;
+    border-radius: 10px;
+}   

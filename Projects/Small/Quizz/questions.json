@@ -1,29 +1,54 @@
 {
   "quiz": [
     {
-      "question": "What will be the output of console.log(typeof null);",
-      "options": ["null", "object", "undefined", "number"],
-      "answer": "object"
+      "question": "What will be the output of console.log(0.1 + 0.2 === 0.3);",
+      "options": ["true", "false", "undefined", "NaN"],
+      "answer": "false"
     },
     {
-      "question": "What is the value of 2^5 × 2^3?",
-      "options": ["256", "64", "128", "32"],
-      "answer": "256"
+      "question": "What is the time complexity of binary search?",
+      "options": ["O(n)", "O(log n)", "O(n log n)", "O(1)"],
+      "answer": "O(log n)"
     },
     {
-      "question": "Which data structure uses FIFO (First In First Out)?",
-      "options": ["Stack", "Queue", "Tree", "Graph"],
-      "answer": "Queue"
+      "question": "Which keyword is used to define a constant in JavaScript?",
+      "options": ["let", "var", "const", "static"],
+      "answer": "const"
     },
     {
-      "question": "Who is known as the Father of Computer?",
-      "options": ["Alan Turing", "Charles Babbage", "John von Neumann", "Bill Gates"],
-      "answer": "Charles Babbage"
+      "question": "What is the value of 5! (5 factorial)?",
+      "options": ["60", "120", "20", "240"],
+      "answer": "120"
     },
     {
-      "question": "What will this Python code output: print([i for i in range(3)])?",
-      "options": ["[1, 2, 3]", "[0, 1, 2]", "[0, 1, 2, 3]", "Error"],
-      "answer": "[0, 1, 2]"
+      "question": "Which of the following is not a programming language?",
+      "options": ["Python", "Java", "HTML", "C++"],
+      "answer": "HTML"
+    },
+    {
+      "question": "What will be the output of print(type([])) in Python?",
+      "options": ["<class 'list'>", "<class 'array'>", "<class 'tuple'>", "<class 'dict'>"],
+      "answer": "<class 'list'>"
+    },
+    {
+      "question": "Which data structure uses LIFO (Last In First Out)?",
+      "options": ["Queue", "Stack", "Heap", "Graph"],
+      "answer": "Stack"
+    },
+    {
+      "question": "What is the binary representation of decimal number 10?",
+      "options": ["1010", "1001", "1100", "1110"],
+      "answer": "1010"
+    },
+    {
+      "question": "Which HTTP method is used to update data?",
+      "options": ["GET", "POST", "PUT", "DELETE"],
+      "answer": "PUT"
+    },
+    {
+      "question": "What will be the output of console.log('5' + 3);",
+      "options": ["8", "53", "Error", "undefined"],
+      "answer": "53"
     }
   ]
 }

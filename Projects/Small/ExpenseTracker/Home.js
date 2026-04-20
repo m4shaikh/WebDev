@@ -38,13 +38,13 @@ expenseElement.innerText = `${allExpenses}`
 function setCategory() {
     if (currentCategory == 'category-spent') {
         currentCategory = 'category-recived'
-        document.getElementById(currentCategory).style.background = '#e0e4d1 '
-        document.getElementById('category-spent').style.background = '#FEFAE0 '
+        document.getElementById(currentCategory).style.background = '#334155 '
+        document.getElementById('category-spent').style.background = '#1E293B '
 
     } else {
         currentCategory = 'category-spent'
-        document.getElementById(currentCategory).style.background = '#e0e4d1 '
-        document.getElementById('category-recived').style.background = '#FEFAE0 '
+        document.getElementById(currentCategory).style.background = '#334155 '
+        document.getElementById('category-recived').style.background = '#1E293B '
     }
 
 }
@@ -88,7 +88,7 @@ function addTransaction() {
     } else {
 
         transactionElement.innerHTML += `<span class="ammount">- $${Ammount}</span>`
-        
+
         //Adding transaction to expense
         allExpenses = allExpenses + Ammount
         expenseElement.innerText = `${allExpenses}`
