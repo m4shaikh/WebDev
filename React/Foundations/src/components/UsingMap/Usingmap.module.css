@@ -1,0 +1,26 @@
+.page{
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    justify-content: center;
+    padding: 2rem;
+    height: auto;
+}
+
+.pagetitle{
+    padding: 2rem;
+    width: 100%;
+}
+
+.list{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+ol{
+    width: 80%; 
+}
+ul{
+    width: 80%;
+}

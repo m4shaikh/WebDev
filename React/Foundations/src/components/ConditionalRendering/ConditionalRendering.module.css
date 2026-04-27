@@ -1,0 +1,27 @@
+
+.main{
+    height: 100%;
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.title{
+    
+    width: 50%;
+    margin-bottom: 100px;
+}
+.show{
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    justify-self: center;
+    align-self: center;
+    padding: 12px ;
+}
+
+.showbutton{
+    padding: 8px;
+}

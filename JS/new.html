@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Packet Journey | Portfolio Loader</title>
+    <style>
+        :root {
+            --bg-deep: #060d18;
+            --bg-card: #0d1525;
+            --accent: #4dc9f6;
+            --accent-glow: #7ddcff;
+            --text-primary: #dceeff;
+            --text-secondary: #8aacc0;
+            --terminal-bg: rgba(4, 12, 24, 0.94);
+            --terminal-border: #1e4058;
+            --terminal-text: #b8e6ff;
+            --terminal-prompt: #5bc0be;
+            --terminal-highlight: #f0c060;
+            --grid-color: #0c2238;
+            --link-color: #1a4a60;
+            --danger: #ff6b7a;
+            --success: #5be0a0;
+            --node-glow: rgba(77, 201, 246, 0.35);
+            --font-mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background: var(--bg-deep);
+            font-family: var(--font-mono);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Hero overlay ── */
+        .hero-overlay {
+            position: fixed;
+            inset: 0;
+            background: #020a14;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 1.2rem;
+        }
+        .hero-overlay.hide {
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+        }
+        .hero-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 40%, rgba(30, 100, 160, 0.08) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        /* Canvas wrapper */
+        .canvas-wrapper {
+            position: relative;
+            width: 92%;
+            max-width: 1050px;
+            aspect-ratio: 2/1;
+            max-height: 520px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow:
+                0 0 80px rgba(30, 140, 210, 0.12),
+                0 0 0 1px rgba(60, 180, 240, 0.18),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+            background: #010a16;
+        }
+        .canvas-wrapper canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+        }
+        /* Scanline overlay */
+        .canvas-wrapper::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 0, 0, 0.03) 2px,
+                    rgba(0, 0, 0, 0.03) 4px);
+            pointer-events: none;
+            border-radius: 20px;
+            z-index: 2;
+        }
+
+        /* Status text */
+        .status-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(8, 18, 30, 0.85);
+            border: 1px solid rgba(70, 180, 230, 0.25);
+            padding: 10px 24px;
+            border-radius: 50px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1001;
+            max-width: 95vw;
+        }
+        .status-bar .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent-glow);
+            animation: pulse-dot 1.4s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                box-shadow: 0 0 6px var(--accent-glow);
+            }
+            50% {
+                box-shadow: 0 0 20px var(--accent-glow), 0 0 36px rgba(77, 201, 246, 0.5);
+            }
+        }
+        .status-bar .msg {
+            font-size: 0.95rem;
+            color: #b0dcff;
+            letter-spacing: 0.4px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Progress steps */
+        .progress-row {
+            display: flex;
+            gap: 6px;
+            z-index: 1001;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .progress-row .step {
+            width: 28px;
+            height: 4px;
+            border-radius: 4px;
+            background: #1a3048;
+            transition: all 0.5s ease;
+        }
+        .progress-row .step.done {
+            background: var(--accent);
+            box-shadow: 0 0 10px rgba(77, 201, 246, 0.6);
+        }
+        .progress-row .step.active {
+            background: #f0c060;
+            box-shadow: 0 0 10px rgba(240, 192, 96, 0.6);
+            animation: pulse-step 1s ease-in-out infinite;
+        }
+        @keyframes pulse-step {
+            0%,
+            100% {
+                opacity: 0.7;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* ── Portfolio section ── */
+        .portfolio {
+            opacity: 0;
+            transition: opacity 0.8s ease 0.25s;
+            background: #080f1c;
+            min-height: 100vh;
+            padding: 3.5rem 2rem;
+            color: var(--text-primary);
+        }
+        .portfolio.revealed {
+            opacity: 1;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .portfolio h1 {
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, #4dc9f6 0%, #a0e8ff 50%, #c8f0ff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.6rem;
+        }
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.3px;
+            max-width: 700px;
+            border-left: 3px solid var(--accent);
+            padding-left: 16px;
+            margin-bottom: 3rem;
+            opacity: 0.85;
+        }
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.6rem;
+            margin: 2.5rem 0;
+        }
+        .card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 1.6rem 1.5rem;
+            border: 1px solid #1e344c;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(77, 201, 246, 0.5), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: #3b749b;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(40, 150, 220, 0.08);
+        }
+        .card:hover::before {
+            opacity: 1;
+        }
+        .card .icon {
+            font-size: 2rem;
+            margin-bottom: 0.7rem;
+            display: block;
+            filter: drop-shadow(0 0 6px rgba(120, 200, 240, 0.4));
+        }
+        .card h3 {
+            font-size: 1.15rem;
+            color: #d4eeff;
+            margin-bottom: 0.4rem;
+            letter-spacing: 0.3px;
+        }
+        .card p {
+            font-size: 0.85rem;
+            color: #7a9bb5;
+            line-height: 1.5;
+        }
+        .card .tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            background: rgba(77, 201, 246, 0.12);
+            color: #7dc8f0;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-top: 10px;
+            letter-spacing: 0.4px;
+        }
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        .btn {
+            background: transparent;
+            border: 1px solid rgba(77, 201, 246, 0.5);
+            color: #b0ddf8;
+            padding: 0.65rem 1.8rem;
+            border-radius: 50px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .btn:hover {
+            background: rgba(77, 201, 246, 0.1);
+            border-color: var(--accent);
+            box-shadow: 0 0 18px rgba(77, 201, 246, 0.25);
+            color: #fff;
+        }
+        .btn.primary {
+            background: rgba(77, 201, 246, 0.15);
+            border-color: var(--accent);
+        }
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            font-size: 0.78rem;
+            color: #4a6d88;
+            letter-spacing: 0.3px;
+            border-top: 1px solid #152333;
+            padding-top: 2rem;
+        }
+        footer .lock {
+            color: #5be0a0;
+        }
+
+        @media (max-width: 768px) {
+            .canvas-wrapper {
+                width: 96%;
+                aspect-ratio: 1.6/1;
+                max-height: 340px;
+                border-radius: 14px;
+            }
+            .canvas-wrapper::after {
+                border-radius: 14px;
+            }
+            .canvas-wrapper canvas {
+                border-radius: 14px;
+            }
+            .portfolio {
+                padding: 2rem 1rem;
+            }
+            .portfolio h1 {
+                font-size: 1.8rem;
+            }
+            .status-bar {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+            .status-bar .msg {
+                font-size: 0.78rem;
+            }
+            .progress-row .step {
+                width: 20px;
+                height: 3px;
+            }
+            .projects {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── Hero overlay with canvas animation ── -->
+    <div class="hero-overlay" id="heroOverlay">
+        <div class="canvas-wrapper">
+            <canvas id="packetCanvas"></canvas>
+        </div>
+        <div class="status-bar">
+            <span class="dot"></span>
+            <span class="msg" id="statusMsg">⚡ initializing packet generator ...</span>
+        </div>
+        <div class="progress-row" id="progressRow">
+            <span class="step"></span><span class="step"></span><span class="step"></span>
+            <span class="step"></span><span class="step"></span><span class="step"></span>
+            <span class="step"></span><span class="step"></span><span class="step"></span>
+            <span class="step"></span><span class="step"></span><span class="step"></span>
+        </div>
+    </div>
+
+    <!-- ── Portfolio content ── -->
+    <div class="portfolio" id="portfolioRoot">
+        <div class="container">
+            <h1>// JORDAN CHEN</h1>
+            <p class="subtitle">network engineer &middot; distributed systems &middot; packet whisperer</p>
+            <div class="projects">
+                <div class="card">
+                    <span class="icon">🌐</span>
+                    <h3>anycast gateway</h3>
+                    <p>BGP-informed routing with 99.999% uptime across 12 global PoPs.</p>
+                    <span class="tag">BGP</span>
+                </div>
+                <div class="card">
+                    <span class="icon">📡</span>
+                    <h3>leo satellite relay</h3>
+                    <p>Custom TCP congestion control tuned for LEO space network latency.</p>
+                    <span class="tag">TCP/IP</span>
+                </div>
+                <div class="card">
+                    <span class="icon">⚡</span>
+                    <h3>packet reflector</h3>
+                    <p>Real-time pcap analysis + eBPF introspection pipeline at 40Gbps.</p>
+                    <span class="tag">eBPF</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <button class="btn primary" id="resetBtn">⟳ replay packet journey</button>
+                <button class="btn" id="contactBtn">📬 get in touch</button>
+            </div>
+            <footer>
+                <span class="lock">✓</span> TLS session established &middot; portfolio loaded via secure channel &middot; © 2025
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            /* ================================================================
+             *  REFINED NETWORK JOURNEY – Polished Visuals + Protocol Stack
+             * ================================================================ */
+
+            // ─── Stage constants ───
+            const STAGE_IDLE = 0;
+            const STAGE_APP = 1;
+            const STAGE_SESSION = 2;
+            const STAGE_TRANSPORT = 3;
+            const STAGE_NETWORK = 4;
+            const STAGE_LINK_PHY = 5;
+            const STAGE_ROUTER = 6;
+            const STAGE_SATELLITE = 7;
+            const STAGE_HOST_RECV = 8;
+            const STAGE_HOST_FILES = 9;
+            const STAGE_RESP_SEND = 10;
+            const STAGE_CLIENT_RECV = 11;
+            const STAGE_DONE = 12;
+            const TOTAL_STAGES = 12;
+
+            // ─── Node positions (normalised 0‑1) ───
+            const NODES = {
+                client: { x: 0.10, y: 0.68, label: 'YOUR DEVICE', icon: '🖥️', short: 'CLIENT' },
+                router: { x: 0.32, y: 0.58, label: 'EDGE ROUTER', icon: '📡', short: 'ROUTER' },
+                satellite: { x: 0.56, y: 0.22, label: 'SAT-LINK', icon: '🛰️', short: 'SATELLITE' },
+                host: { x: 0.86, y: 0.52, label: 'HOST SERVER', icon: '💻', short: 'HOST' },
+            };
+
+            // ─── Canvas & DOM refs ───
+            let canvas, ctx, width, height;
+            let statusDiv, heroOverlay, portfolioDiv, resetBtn, progressRow;
+            let progressSteps = [];
+
+            // ─── Animation state ───
+            let stage = STAGE_IDLE;
+            let packetPos = { x: NODES.client.x, y: NODES.client.y };
+            let travelTarget = null;
+            let travelStartTime = 0;
+            let travelDuration = 0;
+            let travelCallback = null;
+            let travelFromNode = null;
+            let travelToNode = null;
+            let stageTimeout = null;
+            let tickId = null;
+
+            // ─── Particle trail ───
+            let trailParticles = [];
+            const MAX_TRAIL = 28;
+
+            // ─── Terminal windows ───
+            let clientLog = [];
+            let serverLog = [];
+
+            // ─── Stream effect ───
+            let streamActive = false;
+            let streamRoute = [];
+
+            // ─── Node pulse animation offset ───
+            let globalTime = 0;
+
+            // ─── Response files ───
+            const RESPONSE_FILES = ['index.html', 'style.css', 'bundle.js'];
+
+            // ==================================================================
+            //  INITIALISATION
+            // ==================================================================
+            function initDOM() {
+                canvas = document.getElementById('packetCanvas');
+                statusDiv = document.getElementById('statusMsg');
+                heroOverlay = document.getElementById('heroOverlay');
+                portfolioDiv = document.getElementById('portfolioRoot');
+                resetBtn = document.getElementById('resetBtn');
+                progressRow = document.getElementById('progressRow');
+                if (!canvas) { console.error('Canvas #packetCanvas not found'); return false; }
+                ctx = canvas.getContext('2d');
+                // Build progress steps
+                if (progressRow) {
+                    progressRow.innerHTML = '';
+                    progressSteps = [];
+                    for (let i = 0; i < TOTAL_STAGES; i++) {
+                        const s = document.createElement('span');
+                        s.className = 'step';
+                        progressRow.appendChild(s);
+                        progressSteps.push(s);
+                    }
+                }
+                return true;
+            }
+
+            function resizeCanvas() {
+                if (!canvas) return;
+                const wrapper = canvas.parentElement;
+                if (!wrapper) return;
+                const rect = wrapper.getBoundingClientRect();
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                width = rect.width;
+                height = rect.height;
+                canvas.width = width * dpr;
+                canvas.height = height * dpr;
+                canvas.style.width = width + 'px';
+                canvas.style.height = height + 'px';
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.scale(dpr, dpr);
+            }
+
+            function updateProgress() {
+                if (!progressSteps.length) return;
+                progressSteps.forEach((s, i) => {
+                    s.classList.remove('done', 'active');
+                    if (i < stage && stage > 0) s.classList.add('done');
+                    if (i === stage && stage > 0 && stage < STAGE_DONE) s.classList.add('active');
+                });
+            }
+
+            // ==================================================================
+            //  DRAWING HELPERS
+            // ==================================================================
+            function drawBackground() {
+                ctx.clearRect(0, 0, width, height);
+                // Deep gradient background
+                const bgGrad = ctx.createRadialGradient(width * 0.3, height * 0.35, 0, width * 0.5, height * 0.5,
+                    Math.max(width, height) * 0.7);
+                bgGrad.addColorStop(0, '#051525');
+                bgGrad.addColorStop(0.5, '#020d18');
+                bgGrad.addColorStop(1, '#01060e');
+                ctx.fillStyle = bgGrad;
+                ctx.fillRect(0, 0, width, height);
+
+                // Subtle grid
+                ctx.strokeStyle = 'rgba(15, 50, 70, 0.35)';
+                ctx.lineWidth = 0.5;
+                const spacing = 40;
+                for (let x = spacing; x < width; x += spacing) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, height);
+                    ctx.stroke();
+                }
+                for (let y = spacing; y < height; y += spacing) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(width, y);
+                    ctx.stroke();
+                }
+
+                // Subtle radial glow behind nodes
+                for (const node of Object.values(NODES)) {
+                    const nx = node.x * width;
+                    const ny = node.y * height;
+                    const glow = ctx.createRadialGradient(nx, ny, 0, nx, ny, 60);
+                    glow.addColorStop(0, 'rgba(40,140,210,0.12)');
+                    glow.addColorStop(1, 'rgba(40,140,210,0)');
+                    ctx.fillStyle = glow;
+                    ctx.beginPath();
+                    ctx.arc(nx, ny, 60, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            function drawLinks() {
+                const pairs = [
+                    [NODES.client, NODES.router],
+                    [NODES.router, NODES.satellite],
+                    [NODES.satellite, NODES.host],
+                ];
+                pairs.forEach(([a, b]) => {
+                    const x1 = a.x * width,
+                        y1 = a.y * height;
+                    const x2 = b.x * width,
+                        y2 = b.y * height;
+                    // Base link
+                    ctx.strokeStyle = 'rgba(30,100,150,0.4)';
+                    ctx.lineWidth = 1.8;
+                    ctx.setLineDash([10, 14]);
+                    ctx.lineDashOffset = -globalTime * 30;
+                    ctx.beginPath();
+                    ctx.moveTo(x1, y1);
+                    ctx.lineTo(x2, y2);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    // Brighter inner glow
+                    ctx.strokeStyle = 'rgba(60,170,220,0.25)';
+                    ctx.lineWidth = 0.7;
+                    ctx.beginPath();
+                    ctx.moveTo(x1, y1);
+                    ctx.lineTo(x2, y2);
+                    ctx.stroke();
+                });
+            }
+
+            function drawNodes() {
+                const pulse = Math.sin(globalTime * 2.5) * 0.3 + 0.7;
+                for (const node of Object.values(NODES)) {
+                    const nx = node.x * width;
+                    const ny = node.y * height;
+                    // Outer glow ring
+                    const ringGrad = ctx.createRadialGradient(nx, ny, 18, nx, ny, 38);
+                    ringGrad.addColorStop(0, 'rgba(77,201,246,0.45)');
+                    ringGrad.addColorStop(1, 'rgba(77,201,246,0)');
+                    ctx.fillStyle = ringGrad;
+                    ctx.beginPath();
+                    ctx.arc(nx, ny, 38, 0, Math.PI * 2);
+                    ctx.fill();
+                    // Node circle
+                    const nodeGrad = ctx.createRadialGradient(nx - 2, ny - 3, 3, nx, ny, 20);
+                    nodeGrad.addColorStop(0, '#1a2f44');
+                    nodeGrad.addColorStop(0.7, '#0d1a28');
+                    nodeGrad.addColorStop(1, '#060f1a');
+                    ctx.fillStyle = nodeGrad;
+                    ctx.beginPath();
+                    ctx.arc(nx, ny, 20, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = 'rgba(130,210,245,0.7)';
+                    ctx.lineWidth = 2;
+                    ctx.shadowBlur = 16;
+                    ctx.shadowColor = 'rgba(77,201,246,0.5)';
+                    ctx.stroke();
+                    ctx.shadowBlur = 0;
+                    // Icon
+                    ctx.font = '22px "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(node.icon, nx, ny - 1);
+                    // Label
+                    ctx.font = 'bold 10px "Fira Code","SF Mono",monospace';
+                    ctx.fillStyle = '#b8ddf8';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(node.short, nx, ny - 31);
+                    ctx.textAlign = 'start';
+                    ctx.textBaseline = 'alphabetic';
+                }
+            }
+
+            function drawStreamParticles(from, to) {
+                const x1 = from.x * width,
+                    y1 = from.y * height;
+                const x2 = to.x * width,
+                    y2 = to.y * height;
+                const count = 16;
+                const baseT = (globalTime * 80) % 1;
+                ctx.font = 'bold 11px "Fira Code",monospace';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                for (let i = 0; i < count; i++) {
+                    const phase = (baseT + i / count) % 1;
+                    const px = x1 + (x2 - x1) * phase;
+                    const py = y1 + (y2 - y1) * phase;
+                    const alpha = 1 - Math.abs(phase - 0.5) * 1.6;
+                    const bit = Math.floor(globalTime * 20 + i) % 2;
+                    ctx.fillStyle = `rgba(140,230,255,${Math.max(0.2,alpha)})`;
+                    ctx.fillText(bit, px, py);
+                }
+                ctx.textAlign = 'start';
+                ctx.textBaseline = 'alphabetic';
+            }
+
+            function drawPacket() {
+                if (stage === STAGE_DONE) return;
+                const px = packetPos.x * width;
+                const py = packetPos.y * height;
+                // Glow
+                const glow = ctx.createRadialGradient(px, py, 5, px, py, 22);
+                glow.addColorStop(0, 'rgba(255,200,120,0.7)');
+                glow.addColorStop(1, 'rgba(255,160,60,0)');
+                ctx.fillStyle = glow;
+                ctx.beginPath();
+                ctx.arc(px, py, 22, 0, Math.PI * 2);
+                ctx.fill();
+                // Core
+                const coreGrad = ctx.createRadialGradient(px - 2, py - 2, 2, px, py, 12);
+                coreGrad.addColorStop(0, '#ffe8c0');
+                coreGrad.addColorStop(0.6, '#f8a840');
+                coreGrad.addColorStop(1, '#c07020');
+                ctx.fillStyle = coreGrad;
+                ctx.beginPath();
+                ctx.arc(px, py, 12, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 1.5;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = 'rgba(255,180,60,0.7)';
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+                // Label
+                ctx.fillStyle = '#1a0a00';
+                ctx.font = 'bold 10px "Fira Code",monospace';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                const label = (stage <= STAGE_HOST_RECV) ? 'REQ' : 'RES';
+                ctx.fillText(label, px, py + 1);
+                ctx.textAlign = 'start';
+                ctx.textBaseline = 'alphabetic';
+            }
+
+            function drawTrail() {
+                if (trailParticles.length < 2) return;
+                for (let i = 0; i < trailParticles.length; i++) {
+                    const p = trailParticles[i];
+                    const alpha = (i / trailParticles.length) * 0.6;
+                    const r = 2 + (i / trailParticles.length) * 7;
+                    ctx.fillStyle = `rgba(255,180,80,${alpha})`;
+                    ctx.beginPath();
+                    ctx.arc(p.x * width, p.y * height, r, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            function drawTerminal(lines, tx, ty, tw, th, title) {
+                // Background
+                ctx.fillStyle = 'rgba(3,10,20,0.93)';
+                ctx.fillRect(tx, ty, tw, th);
+                ctx.strokeStyle = 'rgba(55,160,210,0.5)';
+                ctx.lineWidth = 1.5;
+                ctx.strokeRect(tx, ty, tw, th);
+                // Title bar
+                ctx.fillStyle = 'rgba(10,30,50,0.7)';
+                ctx.fillRect(tx, ty, tw, 26);
+                ctx.fillStyle = '#7ec8f0';
+                ctx.font = 'bold 11px "Fira Code",monospace';
+                ctx.fillText(title, tx + 10, ty + 18);
+                // Prompt indicator
+                ctx.fillStyle = '#5bc0be';
+                ctx.fillText('▸', tx + tw - 18, ty + 18);
+                // Lines
+                ctx.fillStyle = '#b8e6ff';
+                ctx.font = '10px "Fira Code",monospace';
+                const maxLines = Math.floor((th - 36) / 16);
+                const visible = lines.slice(-maxLines);
+                visible.forEach((line, i) => {
+                    const ly = ty + 44 + i * 16;
+                    // Highlight keywords
+                    if (line.includes('GET') || line.includes('HTTP') || line.includes('200')) {
+                        ctx.fillStyle = '#f0c060';
+                    } else if (line.includes('→') || line.includes('-')) {
+                        ctx.fillStyle = '#7ab8d4';
+                    } else if (line.includes('TCP') || line.includes('IP') || line.includes('TLS')) {
+                        ctx.fillStyle = '#5be0a0';
+                    } else {
+                        ctx.fillStyle = '#b0d8f0';
+                    }
+                    ctx.fillText(line, tx + 10, ly);
+                });
+            }
+
+            function drawStatus() {
+                if (!statusDiv) return;
+                const msgs = {
+                    [STAGE_IDLE]: 'Initialising network stack...',
+                    [STAGE_APP]: '🖥️  Application layer — preparing HTTP request',
+                    [STAGE_SESSION]: '🔗 Session layer — TLS handshake in progress',
+                    [STAGE_TRANSPORT]: '📦 Transport layer — TCP segmentation & port binding',
+                    [STAGE_NETWORK]: '🌐 Network layer — IP encapsulation (src → dst)',
+                    [STAGE_LINK_PHY]: '⚡ Physical layer — converting frames to bit stream',
+                    [STAGE_ROUTER]: '🚀 Bit stream traversing edge router',
+                    [STAGE_SATELLITE]: '🛰️  Satellite relay — intercontinental hop',
+                    [STAGE_HOST_RECV]: '💻 Host receiving & de-encapsulating request',
+                    [STAGE_HOST_FILES]: '📄 Host preparing response payload',
+                    [STAGE_RESP_SEND]: '⬅️  Response travelling back to client',
+                    [STAGE_CLIENT_RECV]: '📥 Client processing response (reverse stack)',
+                    [STAGE_DONE]: '✅ Handshake complete — loading portfolio ✨',
+                };
+                statusDiv.innerText = msgs[stage] || '';
+                updateProgress();
+            }
+
+            function drawFull() {
+                if (!ctx) return;
+                drawBackground();
+                drawLinks();
+                if (streamActive && streamRoute.length === 2) {
+                    drawStreamParticles(streamRoute[0], streamRoute[1]);
+                }
+                drawNodes();
+                drawTrail();
+                drawPacket();
+                // Client terminal
+                if (clientLog.length > 0) {
+                    const tx = 10,
+                        ty = height - 125,
+                        tw = Math.min(310, width * 0.35),
+                        th = 112;
+                    drawTerminal(clientLog, tx, ty, tw, th, 'CLIENT STACK');
+                }
+                // Server terminal
+                if (serverLog.length > 0) {
+                    const tw2 = Math.min(330, width * 0.37),
+                        th2 = 118;
+                    const tx2 = width - tw2 - 10,
+                        ty2 = height - th2 - 8;
+                    drawTerminal(serverLog, tx2, ty2, tw2, th2, 'HOST STACK');
+                }
+                drawStatus();
+            }
+
+            // ==================================================================
+            //  TRAVEL & TRAIL
+            // ==================================================================
+            function clearTravel() {
+                travelTarget = null;
+                travelCallback = null;
+                travelFromNode = null;
+                travelToNode = null;
+                streamActive = false;
+                streamRoute = [];
+                trailParticles = [];
+            }
+
+            function startTravel(fromNode, toNode, durationSec, callback, showStream = false) {
+                packetPos = { x: fromNode.x, y: fromNode.y };
+                travelTarget = { x: toNode.x, y: toNode.y };
+                travelFromNode = fromNode;
+                travelToNode = toNode;
+                travelStartTime = performance.now() / 1000;
+                travelDuration = durationSec;
+                travelCallback = callback;
+                trailParticles = [];
+                if (showStream) {
+                    streamActive = true;
+                    streamRoute = [fromNode, toNode];
+                }
+            }
+
+            function updateTravel(nowSec) {
+                if (!travelTarget) return;
+                const elapsed = nowSec - travelStartTime;
+                const t = Math.min(1, elapsed / travelDuration);
+                // Ease in-out
+                const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+                packetPos.x = travelFromNode.x + (travelTarget.x - travelFromNode.x) * eased;
+                packetPos.y = travelFromNode.y + (travelTarget.y - travelFromNode.y) * eased;
+                // Trail
+                if (t < 1 && trailParticles.length < MAX_TRAIL) {
+                    trailParticles.push({ x: packetPos.x, y: packetPos.y });
+                }
+                if (trailParticles.length > MAX_TRAIL) trailParticles.shift();
+                if (t >= 1) {
+                    packetPos.x = travelTarget.x;
+                    packetPos.y = travelTarget.y;
+                    const cb = travelCallback;
+                    streamActive = false;
+                    travelTarget = null;
+                    travelCallback = null;
+                    travelFromNode = null;
+                    travelToNode = null;
+                    // Fade trail
+                    trailParticles = [];
+                    if (cb) cb();
+                }
+            }
+
+            // ==================================================================
+            //  STAGE TRANSITIONS
+            // ==================================================================
+            function clearStageTimeout() {
+                if (stageTimeout) clearTimeout(stageTimeout);
+                stageTimeout = null;
+            }
+
+            function goToStage(newStage) {
+                clearStageTimeout();
+                stage = newStage;
+                handleStage();
+                drawFull();
+            }
+
+            function nextStage() { goToStage(stage + 1); }
+
+            function handleStage() {
+                switch (stage) {
+                    case STAGE_APP:
+                        clientLog.push('App: GET /index.html HTTP/1.1');
+                        clientLog.push('→ constructing request URI');
+                        stageTimeout = setTimeout(nextStage, 1100);
+                        break;
+                    case STAGE_SESSION:
+                        clientLog.push('Session: initiating TLS 1.3');
+                        clientLog.push('→ key exchange (ECDHE)');
+                        stageTimeout = setTimeout(nextStage, 1300);
+                        break;
+                    case STAGE_TRANSPORT:
+                        clientLog.push('Transport: TCP src=54321→dst=80');
+                        clientLog.push('→ SEQ=1001, window=65535');
+                        stageTimeout = setTimeout(nextStage, 1200);
+                        break;
+                    case STAGE_NETWORK:
+                        clientLog.push('Network: IP 192.168.1.5→203.0.113.5');
+                        clientLog.push('→ TTL=64, proto=TCP, len=1460');
+                        stageTimeout = setTimeout(nextStage, 1200);
+                        break;
+                    case STAGE_LINK_PHY:
+                        clientLog.push('Data Link: framing + MAC addrs');
+                        clientLog.push('Physical: 1011001011100...');
+                        stageTimeout = setTimeout(() => {
+                            startTravel(NODES.client, NODES.router, 1.1, nextStage, true);
+                        }, 700);
+                        break;
+                    case STAGE_ROUTER:
+                        clientLog.push('Router: forwarding → satellite');
+                        startTravel(NODES.router, NODES.satellite, 1.3, nextStage, true);
+                        break;
+                    case STAGE_SATELLITE:
+                        clientLog.push('Satellite: intercontinental relay');
+                        startTravel(NODES.satellite, NODES.host, 1.2, () => {
+                            goToStage(STAGE_HOST_RECV);
+                        }, true);
+                        break;
+                    case STAGE_HOST_RECV:
+                        serverLog.push('Physical: bit stream detected');
+                        serverLog.push('Data Link: decoding frames');
+                        stageTimeout = setTimeout(() => {
+                            serverLog.push('Network: IP 192.168.1.5→203.0.113.5');
+                            serverLog.push('→ TTL valid, routing to host');
+                            stageTimeout = setTimeout(() => {
+                                serverLog.push('Transport: TCP reassembly OK');
+                                stageTimeout = setTimeout(() => {
+                                    serverLog.push('Session: TLS decryption');
+                                    stageTimeout = setTimeout(() => {
+                                        serverLog.push('App: GET /index.html received');
+                                        serverLog.push('→ processing request path');
+                                        stageTimeout = setTimeout(() => {
+                                            goToStage(STAGE_HOST_FILES);
+                                        }, 1200);
+                                    }, 900);
+                                }, 900);
+                            }, 900);
+                        }, 800);
+                        break;
+                    case STAGE_HOST_FILES:
+                        serverLog.push('Preparing response payload:');
+                        RESPONSE_FILES.forEach(f => serverLog.push(`  - ${f}`));
+                        serverLog.push('→ compressing & adding headers');
+                        stageTimeout = setTimeout(() => {
+                            serverLog.push('Sending response bit stream...');
+                            startTravel(NODES.host, NODES.satellite, 1.1, () => {
+                                serverLog.push('Passing through satellite...');
+                                startTravel(NODES.satellite, NODES.router, 1.2, () => {
+                                    serverLog.push('Router forwarding response...');
+                                    startTravel(NODES.router, NODES.client, 1.0, () => {
+                                        goToStage(STAGE_CLIENT_RECV);
+                                    }, true);
+                                }, true);
+                            }, true);
+                        }, 1400);
+                        break;
+                    case STAGE_CLIENT_RECV:
+                        clientLog.push('Physical: receiving response bits');
+                        clientLog.push('Data Link: extracting frames');
+                        stageTimeout = setTimeout(() => {
+                            clientLog.push('Network: IP packet verified');
+                            stageTimeout = setTimeout(() => {
+                                clientLog.push('Transport: TCP reassembly done');
+                                stageTimeout = setTimeout(() => {
+                                    clientLog.push('Session: TLS decryption OK');
+                                    stageTimeout = setTimeout(() => {
+                                        clientLog.push('App: HTTP 200 OK');
+                                        clientLog.push('→ index.html + style.css + bundle.js');
+                                        clientLog.push('→ executing code...');
+                                        stageTimeout = setTimeout(() => goToStage(STAGE_DONE), 1100);
+                                    }, 700);
+                                }, 700);
+                            }, 700);
+                        }, 700);
+                        break;
+                    case STAGE_DONE:
+                        setTimeout(() => {
+                            heroOverlay && heroOverlay.classList.add('hide');
+                            portfolioDiv && portfolioDiv.classList.add('revealed');
+                        }, 500);
+                        break;
+                }
+            }
+
+            // ==================================================================
+            //  MAIN LOOP
+            // ==================================================================
+            function tick(nowMs) {
+                globalTime = nowMs / 1000;
+                updateTravel(globalTime);
+                // Fade trail when not travelling
+                if (!travelTarget && trailParticles.length > 0) {
+                    trailParticles.splice(0, 2);
+                }
+                drawFull();
+                tickId = requestAnimationFrame(tick);
+            }
+
+            function startTick() {
+                if (tickId) cancelAnimationFrame(tickId);
+                tickId = requestAnimationFrame(tick);
+            }
+
+            function stopTick() {
+                if (tickId) cancelAnimationFrame(tickId);
+                tickId = null;
+            }
+
+            // ==================================================================
+            //  RESET
+            // ==================================================================
+            function resetJourney() {
+                stopTick();
+                clearStageTimeout();
+                clearTravel();
+                stage = STAGE_IDLE;
+                packetPos = { x: NODES.client.x, y: NODES.client.y };
+                clientLog = [];
+                serverLog = [];
+                streamActive = false;
+                streamRoute = [];
+                trailParticles = [];
+                heroOverlay && heroOverlay.classList.remove('hide');
+                portfolioDiv && portfolioDiv.classList.remove('revealed');
+                if (progressSteps.length) {
+                    progressSteps.forEach(s => {
+                        s.classList.remove('done', 'active');
+                    });
+                }
+                drawFull();
+                setTimeout(() => {
+                    startTick();
+                    goToStage(STAGE_APP);
+                }, 350);
+            }
+
+            // ==================================================================
+            //  EVENT LISTENERS
+            // ==================================================================
+            function bindEvents() {
+                if (resetBtn) resetBtn.addEventListener('click', resetJourney);
+                const contactBtn = document.getElementById('contactBtn');
+                if (contactBtn) {
+                    contactBtn.addEventListener('click', () => {
+                        contactBtn.textContent = '📬 jordan@packetwhisper.dev';
+                        contactBtn.style.borderColor = '#5be0a0';
+                        contactBtn.style.color = '#5be0a0';
+                        setTimeout(() => {
+                            contactBtn.textContent = '📬 get in touch';
+                            contactBtn.style.borderColor = 'rgba(77,201,246,0.5)';
+                            contactBtn.style.color = '#b0ddf8';
+                        }, 2500);
+                    });
+                }
+                window.addEventListener('resize', () => {
+                    resizeCanvas();
+                    drawFull();
+                });
+                if (window.ResizeObserver && canvas && canvas.parentElement) {
+                    new ResizeObserver(() => {
+                        resizeCanvas();
+                        drawFull();
+                    }).observe(canvas.parentElement);
+                }
+                // Click canvas to skip to next stage (easter egg)
+                if (canvas) {
+                    canvas.addEventListener('click', () => {
+                        if (stage < STAGE_DONE && !travelTarget) {
+                            clearStageTimeout();
+                            nextStage();
+                        }
+                    });
+                    canvas.style.cursor = 'pointer';
+                    canvas.title = 'Click to advance stage';
+                }
+            }
+
+            // ==================================================================
+            //  BOOTSTRAP
+            // ==================================================================
+            function init() {
+                if (!initDOM()) return;
+                resizeCanvas();
+                bindEvents();
+                startTick();
+                goToStage(STAGE_APP);
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
+</body>
+</html>

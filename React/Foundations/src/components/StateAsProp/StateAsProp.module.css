@@ -1,0 +1,35 @@
+.main{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+}
+.btn{
+    display:block;
+    width: 100px;
+}
+.container{
+    margin: 2rem;
+    border: 2px solid black;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-self: center;
+    gap: 8px;
+}
+.parent{
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-self: center;
+}
+.count{
+    display: flex;
+    align-self: center;
+    justify-self: center;
+}
+h1{
+    padding: 2rem;
+}

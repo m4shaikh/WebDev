@@ -1,0 +1,27 @@
+.main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    gap: 2rem;
+}
+h1{
+    width: auto;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+span .count{
+  
+    font-size: 2rem;
+    font-weight: bolder;
+}
+button{
+    padding: 8px;
+}

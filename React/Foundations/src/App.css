@@ -1,0 +1,31 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+main{
+  width: 100%;
+  background: whitesmoke;
+}
+.left-button{
+  left: 10px;
+  top: 50%;
+}
+.right-button{
+  right: 10px;
+  top: 50%;
+}
+.right-button,
+.left-button{
+  position: fixed;
+  display: block;
+  width: 35px;
+  padding: 1rem;
+
+  z-index: 2;
+}
+
+.component{
+  height: 100%;
+}
