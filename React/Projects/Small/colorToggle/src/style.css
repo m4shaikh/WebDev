@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.main {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.btn{
+    margin-top: 8px;
+    padding: 8px;
+    color: antiquewhite;
+    background-color: black;
+    box-shadow: 2px 2px 2px coral;
+    border-radius: 4rem;
+}
