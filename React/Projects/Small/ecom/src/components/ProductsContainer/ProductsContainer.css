@@ -1,0 +1,21 @@
+.products-container{
+    
+    position: fixed;
+    width: 80%;
+    top: 58px;
+    right: 0;
+    height: 100vh;
+}
+h2{
+    font-size: medium;
+    font-weight: 400;
+}
+.container{
+    padding: 0.2rem;
+    height: 80%;
+    margin: 0.5rem 1rem;
+    display: grid;
+    row-gap: 1rem;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    overflow-y: scroll;
+}
