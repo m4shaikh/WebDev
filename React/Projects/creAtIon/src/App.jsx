@@ -1,5 +1,12 @@
+import Team from './components/Team';
+import CompayList from './components/CompayList';
+import Hero from './components/Hero';
 import Navbar from './components/Navbar'
 import { useEffect, useState } from 'react';
+import Services from './components/Services';
+import Work from './components/Work';
+import Contact from './components/Contact';
+import Footer from './components/Footer';
 function App() {
 
   const [theme, setTheme] = useState(
@@ -21,7 +28,16 @@ function App() {
   }, [theme])
 
   return (
-    <Navbar theme={theme} setTheme={setTheme} />
+    <main className='bg-canvas dark:bg-canvas-dark'>
+      <Navbar theme={theme} setTheme={setTheme} />
+      <Hero />
+      <CompayList />
+      <Services />
+      <Work/>
+      <Team/>
+      <Contact/>
+      <Footer/>
+    </main>
   )
 }
 

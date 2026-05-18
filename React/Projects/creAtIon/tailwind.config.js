@@ -26,14 +26,13 @@ export default {
         'border': '#E5E7EB',
 
         // ---------- DARK THEME ----------
-        'canvas-dark': '#0F172A',
+        'canvas-dark': '#090d17',
         'surface-dark': '#1E293B',
         'elevated-dark': '#334155',
 
         'text-primary-dark': '#F1F5F9',
         'text-secondary-dark': '#94A3B8',
         'text-tertiary-dark': '#64748B',
-        
         'text-accent-dark': '#3B82F6',
         'text-error-dark': '#EF4444',
         'text-success-dark': '#10B981',
