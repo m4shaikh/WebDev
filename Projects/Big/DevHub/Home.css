@@ -11,65 +11,69 @@
     border-color 0.3s ease,
     box-shadow 0.3s ease;
 }
-
 :root {
-  --bg-primary: #FFF7ED;
-  --bg-secondary: #FFFFFF;
-  --bg-elevated: #FFEDD5;
+  /* BACKGROUNDS — soft warm white, barely-there cream, no orange */
+  --bg-primary: #F4F0EB;
+  --bg-secondary: #EDE8E2;
+  --bg-elevated: #E5DED6;
 
-  --text-primary: #431407;
-  --text-secondary: #7C2D12;
-  --text-muted: #9A3412;
+  /* TEXT — muted warm rust for primary, deeper for secondary */
+  --text-primary: #A0522D;
+  --text-secondary: #D97757;
+  --text-muted: #8B6355;
 
-  --scrollbar:#DC2626;
-  --scrollbar-track:#f1f5f9;
-
-  --accent-primary: #F97316;
-  --accent-secondary: #EA580C;
-
-  --border: #FED7AA;
-  --divider: #FFEDD5;
-
-  --hover: #FED7AA;
-  --success: #16A34A;
-  --error: #DC2626;
-  --warning: #F59E0B;
-
-  --shadow: rgba(249, 115, 22, 0.55);
-}
-.dark {
-  /* BACKGROUNDS */
-  --bg-primary: #0F172A;
-  --bg-secondary: #111827;
-  --bg-elevated: #1F2933;
-
-  /* TEXT */
-  --text-primary: #E0F2FE;
-  --text-secondary: #7DD3FC;
-  --text-muted: #38BDF8;
-
-
-  --scrollbar:#2c2929c7;
-  --scrollbar-track:#f1f5f9;
+  --scrollbar: #C1A08A;
+  --scrollbar-track: #EDE8E2;
 
   /* ACCENTS */
-  --accent-primary: #22D3EE;
-  --accent-secondary: #A78BFA;
+  --accent-primary: #C1673A;
+  --accent-secondary: #8B4A2F;
 
-  /* BORDERS */
-  --border: #1E293B;
-  --divider: #0F172A;
+  /* BORDERS — subtle warm gray */
+  --border: #D6CCC2;
+  --divider: #E5DED6;
 
   /* STATES */
-  --hover: #164E63;
-  --success: #22C55E;
-  --error: #EF4444;
-  --warning: #F59E0B;
+  --hover: #DDD6CE;
+  --success: #5A7F5A;
+  --error: #A63A2A;
+  --warning: #C97C2E;
 
   /* SHADOW */
-  --shadow: rgba(34, 211, 238, 0.5);
+  --shadow: rgba(160, 100, 70, 0.18);
 }
 
+.dark {
+  /* BACKGROUNDS — near-neutral dark gray, barely a red undertone */
+  --bg-primary: #1F1F1E;
+  --bg-secondary: #2C2C2A;
+  --bg-elevated: #262624;
+
+  /* TEXT — warm stone + rust accent */
+  --text-primary: #D97757;
+  --text-secondary: #A0522D;
+  --text-muted: #7A746C;
+
+  --scrollbar: #3A3835;
+  --scrollbar-track: #121212;
+
+  /* ACCENTS — rust orange, used sparingly */
+  --accent-primary: #D97757;
+  --accent-secondary: #7A4030;
+
+  /* BORDERS — very subtle, barely visible seams */
+  --border: #333330;
+  --divider: #1E1E1D;
+
+  /* STATES */
+  --hover: #323230;
+  --success: #3D6B3D;
+  --error: #7A2E20;
+  --warning: #8A5A1A;
+
+  /* SHADOW */
+  --shadow: rgba(217, 119, 87, 0.12);
+}
 
 ::-webkit-scrollbar-track {
   background: var(--scrollbar-track);
@@ -271,7 +275,7 @@ input:focus{
     margin-top: 4px;
     margin-bottom: 4px;
     background: var(--bg-secondary);
-    color: var(--text-secondary);
+    color: var(--text-muted);
     
     font-size: xx-small;
 
