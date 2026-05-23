@@ -12,37 +12,38 @@
     box-shadow 0.3s ease;
 }
 :root {
-  /* BACKGROUNDS — soft warm white, barely-there cream, no orange */
-  --bg-primary: #F4F0EB;
-  --bg-secondary: #EDE8E2;
-  --bg-elevated: #E5DED6;
+  /* ── Rusty paper backgrounds (warm, slightly darker for depth) ── */
+  --bg-primary: #E8DBCE;
+  --bg-secondary: #e8d6be;
+  --bg-elevated: #D9C9B7;
 
-  /* TEXT — muted warm rust for primary, deeper for secondary */
-  --text-primary: #A0522D;
-  --text-secondary: #D97757;
-  --text-muted: #8B6355;
+  /* ── Deep rusty orange primary text (high contrast, ~5:1) ── */
+  --text-primary: #9C3D20;
+  /* ── Grayish secondary & muted text (still readable) ── */
+  --text-secondary: #874c18e4;   /* dark warm gray, ~5.8:1 */
+  --text-muted: #6E6056;       /* lighter muted gray, ~3:1 – use for hints/large UI */
 
-  --scrollbar: #C1A08A;
-  --scrollbar-track: #EDE8E2;
+  /* ── Scrollbar ── */
+  --scrollbar: #BFA78E;
+  --scrollbar-track: #E1D3C4;
 
-  /* ACCENTS */
-  --accent-primary: #C1673A;
-  --accent-secondary: #8B4A2F;
+  /* ── Accents ── */
+  --accent-primary: #C95D30;   /* vibrant rusty orange for interactive elements */
+  --accent-secondary: #8B4A2F; /* deeper burnt orange for hover/active */
 
-  /* BORDERS — subtle warm gray */
-  --border: #D6CCC2;
-  --divider: #E5DED6;
+  /* ── Borders & dividers (slightly darker for definition) ── */
+  --border: #D1C3B2;
+  --divider: #D9C9B7;
 
-  /* STATES */
-  --hover: #DDD6CE;
-  --success: #5A7F5A;
+  /* ── States ── */
+  --hover: #DDD0BF;
+  --success: #4A6B4A;
   --error: #A63A2A;
-  --warning: #C97C2E;
+  --warning: #A0651A;
 
-  /* SHADOW */
-  --shadow: rgba(160, 100, 70, 0.18);
+  /* ── Shadow (warmer, deeper tone) ── */
+  --shadow: rgba(120, 80, 50, 0.18);
 }
-
 .dark {
   /* BACKGROUNDS — near-neutral dark gray, barely a red undertone */
   --bg-primary: #1F1F1E;
@@ -134,7 +135,7 @@
     padding: 0.6rem 0.8rem 0.6rem 0.8rem ;
     
     background: var(--bg-primary);
-    color: var(--text-primary);
+    color: var(--text-secondary);
     
     border: 2px solid var(--border);
     border-radius: 2.2rem;
