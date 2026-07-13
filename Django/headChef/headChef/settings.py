@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'accounts',
     'recipes'
 ]
@@ -51,7 +52,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(
-        minutes=config('ACCESS_TOKEN_LIFETIME', cast=int)
+        days=config('ACCESS_TOKEN_LIFETIME', cast=int)
     ),
 
     'REFRESH_TOKEN_LIFETIME': timedelta(
@@ -66,6 +67,8 @@ SIMPLE_JWT = {
 
 AUTH_USER_MODEL = 'accounts.User'
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -76,6 +79,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'headChef.urls'
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
     {

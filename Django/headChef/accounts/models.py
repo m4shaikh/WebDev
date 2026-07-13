@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager , PermissionsMixin
 
 
+
    
 class UserManager(BaseUserManager):
     def _create_user(self , email, name , password,**extra_fields):
@@ -49,11 +50,18 @@ class User(AbstractBaseUser,PermissionsMixin):
     date_joined = models.DateTimeField(auto_now_add = True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default = False)
-    
+
     objects = UserManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
     def __str__(self):
-        return self.name
+        return self.name  
+     
+class Favorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE , related_name='favorites')
+    recipe = models.ForeignKey('recipes.Recipes', on_delete=models.CASCADE , related_name='favorated_by')
     
-    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user','recipe'], name="unique_user_favorite_recipe")
+        ]                   

@@ -24,4 +24,6 @@ class RegisterSerializer(serializers.ModelSerializer):
             password=validated_data['password'],
             phone=validated_data.get('phone',''),
         )
-        
+    
+class GoogleAuthSerializer(serializers.Serializer):
+    token = serializers.CharField()

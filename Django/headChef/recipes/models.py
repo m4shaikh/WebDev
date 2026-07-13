@@ -1,5 +1,8 @@
 import uuid
 from django.db import models
+from accounts.models import User
+
+
 UNIT_CHOICES = [
     ('g', 'Gram (g)'),
     ('kg', 'Kilogram (kg)'),
@@ -54,6 +57,12 @@ class Recipes(models.Model):
     def total_ingredients(self):
         return self.used_ingredients.count()
 
+    def total_views(self):
+        return self.views.count()
+
+    def total_cooked(self):
+        return self.cooked_by.count()
+    
     def __str__(self):
         return self.title
     
@@ -141,4 +150,14 @@ class Steps(models.Model):
             )
         ]
         
+class Views(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE , related_name='viewed_recipes')
+    recipe = models.ForeignKey(Recipes, on_delete=models.CASCADE, related_name='views')
+    viewed_at = models.DateTimeField(auto_now_add=True)
         
+class CookedRecipe(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="cooked_recipes")
+    recipe = models.ForeignKey(Recipes,on_delete=models.CASCADE,related_name="cooked_by")
+    cooked_at = models.DateTimeField(auto_now_add=True)
+
+
