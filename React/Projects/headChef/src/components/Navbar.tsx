@@ -24,7 +24,7 @@ const Navbar:React.FC<ModalProps> = ({setShowModal}) => {
     <nav className="w-full h-auto py-4 fixed z-10 bg-card-100 font-sour text-xl border-b border-border-100 flex items-center justify-between px-8">
       
       <div className="">
-        <img src='logo.png' alt="logo" className="h-16 cursor-pointer" onClick={()=>{navigate("/")}}/> 
+        <img src='/logo_jdm26b.webp' alt="logo" className="h-16 cursor-pointer" onClick={()=>{navigate("/")}}/> 
       </div>
 
       <div className="flex gap-16 ">
@@ -35,7 +35,7 @@ const Navbar:React.FC<ModalProps> = ({setShowModal}) => {
 
       <div className="flex gap-8 items-center">
 
-        <button className="cursor-pointer" onClick={HandleProfile}><img src='profile.png' alt="" /></button>
+        <button className="cursor-pointer" onClick={HandleProfile}><img src='/profile.png' alt="" /></button>
         <div className="w-[68px] h-[32px] bg-secondary-500 rounded-full inset-shadow-sm inset-shadow-primary-100 flex items-center justify-center  border-2 border-border-200 cursor-pointer" onClick={()=>{SetDark(!Dark)}}>
           <div className={`w-[24px] h-[24px] bg-primary-400 rounded-full shadow-sm transition-transform duration-300 border border-border-200 ${Dark ? "translate-x-[18px]" : "-translate-x-[18px]"}`}></div>
         </div>

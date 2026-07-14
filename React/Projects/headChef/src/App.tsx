@@ -9,6 +9,7 @@ import LoginModal from "./components/Modals/Modal"
 import CategoryDetail from "./components/Categories/CategoryDetail"
 import RecipeDetail        from "./components/Recipes/RecipeDetail"
 import { useState } from "react"
+import Cooking from "./components/Cooking/Cooking"
 
 const App = () => {
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -29,6 +30,10 @@ const App = () => {
         <Route
           path="/recipes/:recipeId"
           element={<RecipeDetail />}
+        />
+        <Route
+          path="/cooking/:sessionId"
+          element={<Cooking />}
         />
       </Routes>
     </main>

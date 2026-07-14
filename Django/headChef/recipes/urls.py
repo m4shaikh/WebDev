@@ -7,9 +7,5 @@ urlpatterns = [
     path('categories/<uuid:category_id>/',get_category_detail),
     path("recipes/<uuid:recipe_id>/",get_recipe_detail,name="recipe_detail"),
     path("recipes/<uuid:recipe_id>/view/", count_view, name="count_view",),
-    path(
-    "popular/",
-    popular,
-    name="top-viewed-recipes",
-),
+    path("popular/",popular,name="top-viewed-recipes",),
 ]

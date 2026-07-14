@@ -96,3 +96,10 @@ def popular(request):
     serializer = RecipesSerializer(popular, many=True)
 
     return Response(serializer.data)
+
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def post_recipe(request):
+    pass
