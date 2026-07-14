@@ -26,6 +26,12 @@ UNIT_CHOICES = [
     ('oz', 'Ounce'),
     ('lb', 'Pound'),
 ]
+STATUS_CHOICES = [
+        ("active", "Active"),
+        ("paused", "Paused"),
+        ("completed", "Completed"),
+        ("cancelled", "Cancelled"),
+    ]
 # Create your models here.
 class Recipes(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4,editable=False)
@@ -160,4 +166,21 @@ class CookedRecipe(models.Model):
     recipe = models.ForeignKey(Recipes,on_delete=models.CASCADE,related_name="cooked_by")
     cooked_at = models.DateTimeField(auto_now_add=True)
 
+class Favorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE , related_name='favorites')
+    recipe = models.ForeignKey(Recipes, on_delete=models.CASCADE , related_name='favorated_by')
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user','recipe'], name="unique_user_favorite_recipe")
+        ]                   
 
+class CookingSession:
+    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='cooking_session')
+    recipe = models.ForeignKey(Recipes, on_delete=models.CASCADE , related_name='favorated_by',related_name="sessions")
+    started_at = models.DateTimeField(auto_now_add=True)
+    current_step = models.PositiveIntegerField(default=1)
+    states = models.CharField(max_length=16, choices=STATUS_CHOICES,default='active')
+    completed_at = models.DateTimeField(null=True,  blank=True)

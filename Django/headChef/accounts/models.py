@@ -57,11 +57,3 @@ class User(AbstractBaseUser,PermissionsMixin):
     def __str__(self):
         return self.name  
      
-class Favorite(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE , related_name='favorites')
-    recipe = models.ForeignKey('recipes.Recipes', on_delete=models.CASCADE , related_name='favorated_by')
-    
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['user','recipe'], name="unique_user_favorite_recipe")
-        ]                   
