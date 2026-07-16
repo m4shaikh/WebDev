@@ -175,12 +175,13 @@ class Favorite(models.Model):
             models.UniqueConstraint(fields=['user','recipe'], name="unique_user_favorite_recipe")
         ]                   
 
-class CookingSession:
+class CookingSession(models.Model):
     
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='cooking_session')
-    recipe = models.ForeignKey(Recipes, on_delete=models.CASCADE , related_name='favorated_by',related_name="sessions")
+    recipe = models.ForeignKey(Recipes, on_delete=models.CASCADE,related_name="sessions")
     started_at = models.DateTimeField(auto_now_add=True)
     current_step = models.PositiveIntegerField(default=1)
-    states = models.CharField(max_length=16, choices=STATUS_CHOICES,default='active')
-    completed_at = models.DateTimeField(null=True,  blank=True)
+    status = models.CharField(max_length=16, choices=STATUS_CHOICES,default='active')
+    step_started_at = models.DateTimeField(auto_now_add=True)
+    completed_at = models.DateTimeField(null=True, blank=True)

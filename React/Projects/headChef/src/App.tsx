@@ -33,7 +33,7 @@ const App = () => {
         />
         <Route
           path="/cooking/:sessionId"
-          element={<Cooking />}
+          element={<Cooking/>}
         />
       </Routes>
     </main>

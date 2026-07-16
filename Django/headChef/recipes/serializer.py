@@ -1,7 +1,7 @@
 # serializers.py
 
 from rest_framework import serializers
-from .models import Recipes, Categories,Images,UsedIngredients,Ingredients,Steps
+from .models import Recipes, Categories,Images,UsedIngredients,Ingredients,Steps,CookingSession
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -142,3 +142,51 @@ class RecipeDetailSerializer(serializers.ModelSerializer):
 
     def get_cooked(self, obj):
         return obj.total_cooked()
+    
+
+class SessionStepSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Steps
+        fields = [
+            "step_number",
+            "instruction",
+            "duration",
+            "requires_timer",
+            "special_note",
+        ]
+
+
+class SessionSerializer(serializers.ModelSerializer):
+    recipe_title = serializers.CharField(source="recipe.title", read_only=True)
+    recipe_thumbnail = serializers.ImageField(source="recipe.thumbnail", read_only=True)
+    total_steps = serializers.SerializerMethodField()
+    current_step_data = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CookingSession
+        fields = [
+            "id",
+            "recipe",
+            "recipe_title",
+            "recipe_thumbnail",
+            "status",
+            "started_at",
+            "completed_at",
+            "current_step",
+            "step_started_at",
+            "total_steps",
+            "current_step_data",
+        ]
+
+    def get_total_steps(self, obj):
+        return obj.recipe.steps.count()
+
+    def get_current_step_data(self, obj):
+        step = obj.recipe.steps.filter(
+            step_number=obj.current_step
+        ).first()
+
+        if not step:
+            return None
+
+        return SessionStepSerializer(step).data

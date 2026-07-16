@@ -1,4 +1,46 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+interface StepType{
+  step_number : number
+  instruction : string
+  duration : number
+  requires_timer : boolean
+  special_note : string
+}
+
+interface SessionType{
+  completed_at:null
+  current_step:number
+  current_step_data:StepType
+  id:string
+  recipe:string
+  recipe_thumbnail:string
+  recipe_title:string
+  started_at:string
+  status:'active' | 'paused' | 'completed' | 'cancelled'
+  step_started_at:string
+  total_steps:number
+}
+
 const Cooking = () => {
+  
+  const [session, setSession] = useState<SessionType|null> (null)
+  
+  useEffect(()=>{
+
+    const fetchSession = async () => {
+
+      const response:SessionType = await axios.get(`/recipes/start/`)
+      
+      setSession(response)
+      
+    }
+    fetchSession()
+    
+  },[])
+  
+  console.log(session)
+
   return (
     <div className="pt-24 min-h-screen bg-bg-100 font-sour px-6 pb-6">
 

@@ -1,9 +1,13 @@
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view,authentication_classes,permission_classes
 from rest_framework.permissions import IsAuthenticated
-from .models import Recipes ,Categories, Views
-from .serializer import RecipesSerializer, CategorySerializer, RecipeDetailSerializer
+from .models import Recipes ,Categories, Views, CookingSession
+from .serializer import RecipesSerializer, CategorySerializer, RecipeDetailSerializer ,SessionSerializer
 from django.db.models import Count
+from django.shortcuts import get_object_or_404
+from django.utils import timezone
+
 
 @api_view(['GET'])
 def get_home():
@@ -103,3 +107,43 @@ def popular(request):
 @permission_classes([IsAuthenticated])
 def post_recipe(request):
     pass
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def start_cooking(request,recipe_id):
+    
+    recipe = get_object_or_404(
+        Recipes,
+        id = recipe_id
+    )
+    
+    session = CookingSession.objects.filter(user = request.user , recipe = recipe , status = 'active').first()
+    if session:
+        serializer = SessionSerializer(session)
+        return Response(serializer.data)
+    
+    first_step = recipe.steps.first().step_number
+    
+    if first_step is None:
+        return Response(
+            {"detail": "Recipe has no cooking steps."},
+            status=status.HTTP_400_BAD_REQUEST
+        ) 
+        
+    session = CookingSession.objects.create(
+        user=request.user,
+        recipe=recipe,
+        current_step=first_step,
+        status="active",
+        started_at=timezone.now(),
+        step_started_at=timezone.now()
+    )
+    
+    serializer = SessionSerializer(session)
+    
+    return Response(
+        serializer.data,
+        status=status.HTTP_201_CREATED
+    )
+    
