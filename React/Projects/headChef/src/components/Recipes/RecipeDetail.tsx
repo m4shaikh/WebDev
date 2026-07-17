@@ -58,8 +58,7 @@ const RecipeDetail = () => {
         const fetchRecipe = async () => {
             try {
 
-                const response =
-                    await api.get(`/recipes/${recipeId}/`);
+                const response = await api.get(`/recipes/${recipeId}/`);
 
                 setRecipe(response.data);
 

@@ -147,3 +147,16 @@ def start_cooking(request,recipe_id):
         status=status.HTTP_201_CREATED
     )
     
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_session(request , session_id):
+
+    session = get_object_or_404(CookingSession,id=session_id)
+    
+    serializer = SessionSerializer(session)
+    
+    return Response(
+        serializer.data,
+        status=status.HTTP_200_OK
+    )

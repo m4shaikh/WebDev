@@ -1,44 +1,51 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-interface StepType{
-  step_number : number
-  instruction : string
-  duration : number
-  requires_timer : boolean
-  special_note : string
+import api from "../../api/axios";
+import { useParams } from 'react-router';
+
+interface StepType {
+  step_number: number
+  instruction: string
+  duration: number
+  requires_timer: boolean
+  special_note: string
 }
 
-interface SessionType{
-  completed_at:null
-  current_step:number
-  current_step_data:StepType
-  id:string
-  recipe:string
-  recipe_thumbnail:string
-  recipe_title:string
-  started_at:string
-  status:'active' | 'paused' | 'completed' | 'cancelled'
-  step_started_at:string
-  total_steps:number
+interface SessionType {
+  completed_at: null
+  current_step: number
+  current_step_data: StepType
+  id: string
+  recipe: string
+  recipe_thumbnail: string
+  recipe_title: string
+  started_at: string
+  status: 'active' | 'paused' | 'completed' | 'cancelled'
+  step_started_at: string
+  total_steps: number
 }
 
 const Cooking = () => {
-  
-  const [session, setSession] = useState<SessionType|null> (null)
-  
-  useEffect(()=>{
+
+  const { sessionId } = useParams()
+  const [session, setSession] = useState<SessionType | null>(null)
+
+  useEffect(() => {
 
     const fetchSession = async () => {
+      try {
+        const response = await api.get(`/session/${sessionId}/`);
 
-      const response:SessionType = await axios.get(`/recipes/start/`)
-      
-      setSession(response)
-      
-    }
+        console.log("API Response:", response.data);
+
+        setSession(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
     fetchSession()
-    
-  },[])
-  
+
+  }, [sessionId])
+
   console.log(session)
 
   return (
