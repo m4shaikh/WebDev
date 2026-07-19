@@ -12,36 +12,12 @@ import {
     BsPlayFill
 } from "react-icons/bs";
 
+import type { RecipeDetailData } from "../../Types/types";
+
 import { GiChefToque } from "react-icons/gi";
 
 import api from "../../api/axios";
 
-interface Ingredient {
-    name: string;
-    quantity: number;
-    unit: string;
-}
-
-interface Step {
-    step_number: number;
-    instruction: string;
-    duration: number;
-    special_note?: string;
-}
-
-interface RecipeDetailData {
-    id: string;
-    title: string;
-    description: string;
-    difficulty: string;
-    thumbnail: string;
-    calories: number;
-    views: number;
-    cooked: number;
-    cooking_time: number;
-    ingredients: Ingredient[];
-    steps: Step[];
-}
 
 const RecipeDetail = () => {
     const { recipeId } = useParams();
@@ -292,7 +268,7 @@ const RecipeDetail = () => {
                         {recipe.ingredients.map((ingredient) => (
 
                             <div
-                                key={ingredient.name}
+                                key={ingredient.ingredient_name}
                                 className="flex justify-between items-center bg-bg-100 rounded-2xl p-5"
                             >
 
@@ -305,7 +281,7 @@ const RecipeDetail = () => {
                                     </div>
 
                                     <span className="text-xl">
-                                        {ingredient.name}
+                                        {ingredient.ingredient_name}
                                     </span>
 
                                 </div>

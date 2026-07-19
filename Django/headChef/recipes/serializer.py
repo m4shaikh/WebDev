@@ -158,17 +158,23 @@ class SessionStepSerializer(serializers.ModelSerializer):
 
 class SessionSerializer(serializers.ModelSerializer):
     recipe_title = serializers.CharField(source="recipe.title", read_only=True)
-    recipe_thumbnail = serializers.ImageField(source="recipe.thumbnail", read_only=True)
+    
     total_steps = serializers.SerializerMethodField()
     current_step_data = serializers.SerializerMethodField()
 
+    ingredients = UsedIngredientSerializer(
+        source="recipe.used_ingredients",
+        many=True,
+        read_only=True
+    )
+        
     class Meta:
         model = CookingSession
         fields = [
             "id",
             "recipe",
             "recipe_title",
-            "recipe_thumbnail",
+            "ingredients",
             "status",
             "started_at",
             "completed_at",

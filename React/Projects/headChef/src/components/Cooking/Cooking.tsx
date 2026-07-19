@@ -1,204 +1,170 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router";
+
 import api from "../../api/axios";
-import { useParams } from 'react-router';
 
-interface StepType {
-  step_number: number
-  instruction: string
-  duration: number
-  requires_timer: boolean
-  special_note: string
-}
+import CookingHeader from "./CookingHeader";
+import ProgressPanel from "./ProgressPanel";
+import IngredientsPanel from "./IngredientsPanel";
+import CurrentStep from "./CurrentStep";
+import TimerPanel from "./TimerPanel";
+import NavigationPanel from "./NavigationPanel";
 
-interface SessionType {
-  completed_at: null
-  current_step: number
-  current_step_data: StepType
-  id: string
-  recipe: string
-  recipe_thumbnail: string
-  recipe_title: string
-  started_at: string
-  status: 'active' | 'paused' | 'completed' | 'cancelled'
-  step_started_at: string
-  total_steps: number
-}
+import type { Ingredient, SessionType } from '../../Types/types'
 
 const Cooking = () => {
+  const { sessionId } = useParams();
 
-  const { sessionId } = useParams()
-  const [session, setSession] = useState<SessionType | null>(null)
+  const [session, setSession] = useState<SessionType | null>(null);
+
+  const [remainingTime, setRemainingTime] = useState(0);
 
   useEffect(() => {
-
     const fetchSession = async () => {
       try {
-        const response = await api.get(`/session/${sessionId}/`);
-
-        console.log("API Response:", response.data);
+        const response = await api.get(
+          `/session/${sessionId}/`
+        );
 
         setSession(response.data);
       } catch (error) {
         console.error(error);
       }
     };
-    fetchSession()
 
-  }, [sessionId])
+    fetchSession();
+  }, [sessionId]);
 
-  console.log(session)
+  useEffect(() => {
+    if (!session) return;
+
+    if (!session.current_step_data.requires_timer) {
+      
+      return;
+    }
+
+    const started = new Date(session.step_started_at).getTime();
+
+    const tick = () => { 
+      
+      const elapsed = Math.floor( (Date.now() - started) / 1000 );
+
+      const left = Math.max( session.current_step_data.duration - elapsed, 0 );
+
+      setRemainingTime((prev) => prev === left ? prev : left);
+    };
+
+    tick();
+
+    const interval = setInterval(tick, 1000);
+
+    return () => clearInterval(interval);
+  }, [
+    session,
+    session?.step_started_at,
+    session?.current_step,
+    session?.current_step_data.duration,
+    session?.current_step_data.requires_timer,
+  ]);
+
+  const progress = useMemo(() => {
+    if (!session) return 0;
+
+    return (
+      (session.current_step /
+        session.total_steps) *
+      100
+    );
+  }, [session]);
+
+  const formattedTime = useMemo(() => {
+    const mins = Math.floor(
+      remainingTime / 60
+    );
+
+    const secs = remainingTime % 60;
+
+    return `${String(mins).padStart(
+      2,
+      "0"
+    )}:${String(secs).padStart(2, "0")}`;
+  }, [remainingTime]);
+
+  const nextStep = async () => {
+    // TODO
+  };
+
+  const previousStep = async () => {
+    // TODO
+  };
+
+  const exitCooking = async () => {
+    // TODO
+  };
+
+  if (!session) {
+    return (
+      <div className="pt-24 text-center text-2xl">
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div className="pt-24 min-h-screen bg-bg-100 font-sour px-6 pb-6">
 
-      {/* Header */}
+      <CookingHeader
+        recipeTitle={session.recipe_title}
+        status={session.status}
+        onExit={exitCooking}
+      />
 
-      <div className="flex items-center justify-between mb-6">
+      <div className="grid grid-cols-12 gap-6">
 
-        <div>
-          <p className="text-text-100 text-sm uppercase tracking-widest">
-            Cooking Session
-          </p>
+        <div className="col-span-3 flex flex-col gap-6">
 
-          <h1 className="text-4xl font-bold">
-            Chicken Tikka Masala
-          </h1>
-        </div>
+          <ProgressPanel
+            currentStep={session.current_step}
+            totalSteps={session.total_steps}
+            progress={progress}
+          />
 
-        <button className="px-5 py-3 rounded-xl border hover:bg-primary-100 transition">
-          Exit Cooking
-        </button>
-
-      </div>
-
-      {/* Main Grid */}
-
-      <div className="grid grid-cols-12 gap-6 h-[calc(100vh-180px)]">
-
-        {/* LEFT PANEL */}
-
-        <div className="col-span-3 flex flex-col gap-5">
-
-          <div className="bg-white rounded-3xl p-6 shadow">
-
-            <h2 className="text-xl font-bold mb-4">
-              Progress
-            </h2>
-
-            <p className="text-text-100 mb-2">
-              Step 3 of 8
-            </p>
-
-            <div className="h-3 rounded-full bg-primary-100 overflow-hidden">
-
-              <div className="h-full w-[38%] bg-orange-500 rounded-full" />
-
-            </div>
-
-            <p className="mt-3 text-sm text-text-100">
-              38% Completed
-            </p>
-
-          </div>
-
-          <div className="bg-white rounded-3xl p-6 shadow flex-1">
-
-            <h2 className="text-xl font-bold mb-4">
-              Ingredients
-            </h2>
-
-            <div className="flex flex-col gap-3">
-
-              <label className="flex gap-3 items-center">
-                <input type="checkbox" />
-                Chicken
-              </label>
-
-              <label className="flex gap-3 items-center">
-                <input type="checkbox" />
-                Onion
-              </label>
-
-              <label className="flex gap-3 items-center">
-                <input type="checkbox" />
-                Garlic
-              </label>
-
-              <label className="flex gap-3 items-center">
-                <input type="checkbox" />
-                Butter
-              </label>
-
-            </div>
-
-          </div>
+          <IngredientsPanel
+            ingredients={
+              session.ingredients as Ingredient[]
+            }
+          />
 
         </div>
 
-        {/* CENTER */}
+        <div className="col-span-6">
 
-        <div className="col-span-6 flex">
-
-          <div className="bg-white rounded-3xl shadow p-12 w-full flex flex-col justify-center">
-
-            <p className="text-orange-500 uppercase tracking-wider font-semibold">
-              Current Step
-            </p>
-
-            <h2 className="text-6xl font-bold mt-2">
-              Step 3
-            </h2>
-
-            <p className="text-3xl leading-relaxed mt-10">
-              Add chopped onions into the pan and cook
-              until they become golden brown. Stir every
-              20–30 seconds to prevent burning.
-            </p>
-
-          </div>
+          <CurrentStep
+            step={session.current_step_data}
+          />
 
         </div>
 
-        {/* RIGHT */}
+        <div className="col-span-3 flex flex-col gap-6">
 
-        <div className="col-span-3 flex flex-col gap-5">
+          <TimerPanel
+            requiresTimer={
+              session.current_step_data
+                .requires_timer
+            }
+            time={formattedTime}
+            specialNote={
+              session.current_step_data
+                .special_note
+            }
+          />
 
-          <div className="bg-white rounded-3xl p-6 shadow">
-
-            <p className="text-center text-text-100">
-              Timer
-            </p>
-
-            <h2 className="text-center text-6xl font-bold mt-3">
-              03:42
-            </h2>
-
-          </div>
-
-          <div className="bg-orange-50 rounded-3xl p-6">
-
-            <h3 className="font-bold text-xl mb-3">
-              💡 Chef Tip
-            </h3>
-
-            <p className="leading-7">
-              Medium flame gives the onions a sweet
-              caramelized flavour without burning.
-            </p>
-
-          </div>
-
-          <div className="mt-auto flex flex-col gap-4">
-
-            <button className="py-4 rounded-2xl border">
-              ← Previous Step
-            </button>
-
-            <button className="py-4 rounded-2xl bg-orange-500 text-white">
-              Next Step →
-            </button>
-
-          </div>
+          <NavigationPanel
+            currentStep={session.current_step}
+            totalSteps={session.total_steps}
+            onPrevious={previousStep}
+            onNext={nextStep}
+          />
 
         </div>
 

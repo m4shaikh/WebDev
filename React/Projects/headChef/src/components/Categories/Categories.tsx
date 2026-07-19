@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../../api/axios";
 
 import CategoryCard from "./CategoryCard";
-import type { Category } from "./Caegory";
+import type { Category } from "../../Types/types";
 
 
 const Categories = () => {

@@ -5,8 +5,8 @@ import api from "../../api/axios";
 
 import RecipeCard from "../Recipes/RecipeCard";
 
-import type { Category } from "./Caegory";
-import type { Recipe } from "../Recipes/Recipe";
+import type { Category } from "../../Types/types";
+import type { Recipe } from "../../Types/types";
 
 const CategoryDetail = () => {
     const { categoryId } = useParams();

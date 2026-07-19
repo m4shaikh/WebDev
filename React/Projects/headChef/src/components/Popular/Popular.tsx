@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Recipe } from "../Recipes/Recipe";
+import type { Recipe } from "../../Types/types";
 import api from "../../api/axios";
 
 import { AiOutlineHeart } from "react-icons/ai";

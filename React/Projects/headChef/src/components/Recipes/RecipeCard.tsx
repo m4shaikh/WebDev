@@ -1,7 +1,7 @@
 // components/RecipeCard.tsx
 
 import { AiOutlineHeart } from "react-icons/ai";
-import type { Recipe } from "./Recipe";
+import type { Recipe } from "../../Types/types";
 import { useNavigate } from "react-router-dom";
 
 const RecipeCard = ({id,title,thumbnail,rating,cooking_time,difficulty,calories}: Recipe) => {
