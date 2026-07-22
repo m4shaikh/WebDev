@@ -30,7 +30,7 @@ const NavigationPanel = ({
 
       <button
         onClick={onNext}
-        disabled={currentStep === totalSteps}
+        
         className="
           py-4
           rounded-2xl

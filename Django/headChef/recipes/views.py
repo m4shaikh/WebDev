@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view,authentication_classes,permission_classes
 from rest_framework.permissions import IsAuthenticated
-from .models import Recipes ,Categories, Views, CookingSession
+from .models import Recipes ,Categories, Views, CookingSession, CookedRecipe
 from .serializer import RecipesSerializer, CategorySerializer, RecipeDetailSerializer ,SessionSerializer
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
@@ -160,3 +160,143 @@ def get_session(request , session_id):
         serializer.data,
         status=status.HTTP_200_OK
     )
+    
+    
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def next_step(request,session_id):
+    
+    session = get_object_or_404(
+        CookingSession,
+        id=session_id,
+        user = request.user
+    )
+    
+    if session.status != 'active':
+        return Response(
+            {"detail": "Session is not active."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    
+    total_steps = session.recipe.steps.count()
+    
+    if session.current_step >= total_steps:
+
+        session.status = "completed"
+        session.completed_at = timezone.now()
+        session.save()
+
+        serializer = SessionSerializer(session)
+
+        return Response(serializer.data)
+    
+    session.current_step += 1
+    session.step_started_at = timezone.now()
+    session.save()
+    
+    serializer = SessionSerializer(session)
+
+    return Response(serializer.data)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def previous_step(request, session_id):
+
+    session = get_object_or_404(
+        CookingSession,
+        id=session_id,
+        user=request.user,
+    )
+
+    if session.status != "active":
+        return Response(
+            {"detail": "Session is not active."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    first_step = session.recipe.steps.first()
+
+    if first_step is None:
+        return Response(
+            {"detail": "Recipe has no steps."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    if session.current_step <= first_step.step_number:
+        serializer = SessionSerializer(session)
+        return Response(serializer.data)
+
+    session.current_step -= 1
+    session.step_started_at = timezone.now()
+    session.save()
+
+    serializer = SessionSerializer(session)
+
+    return Response(serializer.data)
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def exit_cooking(request, session_id):
+
+    session = get_object_or_404(
+        CookingSession,
+        id=session_id,
+        user=request.user,
+    )
+
+    if session.status in ["completed", "cancelled"]:
+        return Response(
+            {"detail": "Session already finished."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    session.status = "cancelled"
+    session.completed_at = timezone.now()
+    session.save()
+
+    return Response(
+        {
+            "detail": "Cooking session cancelled.",
+            "recipe_id": session.recipe.id,
+        },
+        status=status.HTTP_200_OK,
+    )
+    
+    
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def complete_cooking(request, session_id):
+
+    session = get_object_or_404(
+        CookingSession,
+        id=session_id,
+        user=request.user,
+    )
+
+    if session.status != "active":
+        return Response(
+            {"detail": "Session is not active."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    last_step = session.recipe.steps.last()
+
+    if session.current_step != last_step.step_number:
+        return Response(
+            {"detail": "Recipe is not finished yet."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    session.status = "completed"
+    session.completed_at = timezone.now()
+    session.save()
+
+    CookedRecipe.objects.get_or_create(
+        user=request.user,
+        recipe=session.recipe,
+    )
+
+    serializer = SessionSerializer(session)
+
+    return Response(serializer.data)

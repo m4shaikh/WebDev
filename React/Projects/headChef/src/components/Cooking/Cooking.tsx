@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router";
 
+import { useNavigate } from "react-router";
+
 import api from "../../api/axios";
 
 import CookingHeader from "./CookingHeader";
@@ -13,6 +15,9 @@ import NavigationPanel from "./NavigationPanel";
 import type { Ingredient, SessionType } from '../../Types/types'
 
 const Cooking = () => {
+
+  const navigate = useNavigate()
+
   const { sessionId } = useParams();
 
   const [session, setSession] = useState<SessionType | null>(null);
@@ -39,17 +44,17 @@ const Cooking = () => {
     if (!session) return;
 
     if (!session.current_step_data.requires_timer) {
-      
+
       return;
     }
 
     const started = new Date(session.step_started_at).getTime();
 
-    const tick = () => { 
-      
-      const elapsed = Math.floor( (Date.now() - started) / 1000 );
+    const tick = () => {
 
-      const left = Math.max( session.current_step_data.duration - elapsed, 0 );
+      const elapsed = Math.floor((Date.now() - started) / 1000);
+
+      const left = Math.max(session.current_step_data.duration - elapsed, 0);
 
       setRemainingTime((prev) => prev === left ? prev : left);
     };
@@ -91,15 +96,54 @@ const Cooking = () => {
   }, [remainingTime]);
 
   const nextStep = async () => {
-    // TODO
+    try {
+      const response = await api.post(
+        `/session/${sessionId}/next/`
+      );
+
+      setSession(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const previousStep = async () => {
-    // TODO
+    try {
+      const response = await api.post(
+        `/session/${sessionId}/previous/`
+      );
+
+      setSession(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const exitCooking = async () => {
-    // TODO
+    try {
+      const response = await api.post(
+        `/session/${sessionId}/exit/`
+      );
+
+      navigate(
+        `/recipes/${response.data.recipe_id}`
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const completeCooking = async () => {
+    try {
+      const response = await api.post(
+        `/session/${sessionId}/complete/`
+      );
+
+      navigate(`/recipes/${response.data.recipe}`);
+
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   if (!session) {
@@ -148,22 +192,20 @@ const Cooking = () => {
         <div className="col-span-3 flex flex-col gap-6">
 
           <TimerPanel
-            requiresTimer={
-              session.current_step_data
-                .requires_timer
-            }
+            requiresTimer={session.current_step_data.requires_timer}
             time={formattedTime}
-            specialNote={
-              session.current_step_data
-                .special_note
-            }
+            specialNote={session.current_step_data.special_note}
           />
 
           <NavigationPanel
             currentStep={session.current_step}
             totalSteps={session.total_steps}
             onPrevious={previousStep}
-            onNext={nextStep}
+            onNext={
+              session.current_step === session.total_steps
+                ? completeCooking
+                : nextStep
+            }
           />
 
         </div>
